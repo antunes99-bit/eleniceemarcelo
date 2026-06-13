@@ -1,0 +1,16 @@
+{
+  "itens": [
+    { "ritmo": "forro",   "legenda": "Aulão de Forró no salão",     "video": false, "imagem": "" },
+    { "ritmo": "samba",   "legenda": "Samba de Gafieira em roda",    "video": false, "imagem": "" },
+    { "ritmo": "bolero",  "legenda": "Bolero — compasso lento",      "video": false, "imagem": "" },
+    { "ritmo": "bachata", "legenda": "Bachata na pista",             "video": false, "imagem": "" },
+    { "ritmo": "samba",   "legenda": "Turma avançada de quinta",     "video": true,  "imagem": "" },
+    { "ritmo": "forro",   "legenda": "Primeira aula experimental",   "video": false, "imagem": "" },
+    { "ritmo": "bachata", "legenda": "Casais na bachata",            "video": false, "imagem": "" },
+    { "ritmo": "bolero",  "legenda": "Elegância do bolero",          "video": false, "imagem": "" },
+    { "ritmo": "samba",   "legenda": "Ginga e brasilidade",          "video": true,  "imagem": "" },
+    { "ritmo": "forro",   "legenda": "O salão cheio no forró",       "video": false, "imagem": "" },
+    { "ritmo": "bachata", "legenda": "Ritmo latino",                 "video": false, "imagem": "" },
+    { "ritmo": "bolero",  "legenda": "Romance no salão",             "video": false, "imagem": "" }
+  ]
+}
