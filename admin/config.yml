@@ -1,0 +1,66 @@
+# =====================================================================
+#  CONFIGURAÇÃO DO PAINEL DE EDIÇÃO (Sveltia CMS / compatível com Decap)
+# =====================================================================
+backend:
+  name: github
+  repo: antunes99-bit/eleniceemarcelo
+  branch: main
+
+# Onde as fotos enviadas serão guardadas
+media_folder: "uploads"
+public_folder: "/uploads"
+
+# Idioma do painel
+locale: pt
+
+collections:
+  # ---------- GALERIA ----------
+  - name: galeria
+    label: "🖼️ Galeria — O salão em movimento"
+    files:
+      - name: galeria
+        label: "Fotos da galeria"
+        file: "content/gallery.json"
+        description: "Adicione, remova e reordene as fotos do salão."
+        fields:
+          - name: itens
+            label: "Fotos"
+            label_singular: "foto"
+            widget: list
+            summary: "{{fields.legenda}}"
+            fields:
+              - { name: imagem,  label: "Foto",    widget: image,  required: false, hint: "Arraste a foto aqui ou clique para enviar." }
+              - { name: legenda, label: "Legenda", widget: string, hint: "Texto curto que aparece sobre a foto." }
+              - name: ritmo
+                label: "Ritmo"
+                widget: select
+                options: ["forro", "samba", "bolero", "bachata"]
+                hint: "Usado nos filtros da galeria."
+              - { name: video, label: "Marcar como vídeo (mostra ícone)", widget: boolean, default: false, required: false }
+
+  # ---------- INFORMAÇÕES & HORÁRIOS ----------
+  - name: info
+    label: "⚙️ Informações & Horários"
+    files:
+      - name: info
+        label: "Contato, textos e horários"
+        file: "content/info.json"
+        description: "Edite WhatsApp, Instagram, endereço e a grade de turmas."
+        fields:
+          - { name: whatsapp,     label: "WhatsApp (só números, com 55 na frente)", widget: string, hint: "Ex.: 5553999998888" }
+          - { name: whatsapp_msg, label: "Mensagem que já vem escrita ao abrir o WhatsApp", widget: string }
+          - { name: instagram,    label: "Link do Instagram", widget: string }
+          - { name: endereco,     label: "Endereço", widget: string }
+          - { name: hero_subtitulo, label: "Frase de abertura do site", widget: string }
+          - { name: hero_titulo,  label: "Título principal (opcional)", widget: string, required: false }
+          - { name: google_reviews_url, label: "Link das avaliações no Google", widget: string }
+          - name: horarios
+            label: "Grade de horários"
+            label_singular: "turma"
+            widget: list
+            summary: "{{fields.dia}} — {{fields.hora}}"
+            fields:
+              - { name: dia,       label: "Dia",       widget: string, hint: "Ex.: Segundas-feiras" }
+              - { name: hora,      label: "Horário",   widget: string, hint: "Ex.: 19h30 — 21h00" }
+              - { name: nivel,     label: "Nível",     widget: string, hint: "Ex.: Iniciante" }
+              - { name: descricao, label: "Descrição", widget: text }
