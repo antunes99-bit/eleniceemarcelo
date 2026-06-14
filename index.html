@@ -158,9 +158,11 @@
   .gal-folders{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px}
   .folder{display:block;border-radius:14px;overflow:hidden;background:#3a0f1a;box-shadow:var(--shadow);transition:.25s;position:relative;text-decoration:none}
   .folder:hover{transform:translateY(-5px)}
-  .folder-img{aspect-ratio:4/3;overflow:hidden}
-  .folder-img img{width:100%;height:100%;object-fit:cover;transition:.4s;display:block}
-  .folder:hover .folder-img img{transform:scale(1.07)}
+  .folder-img{aspect-ratio:4/3;overflow:hidden;position:relative}
+  .folder-img img,.folder-img video{width:100%;height:100%;object-fit:cover;transition:.4s;display:block}
+  .folder:hover .folder-img img,.folder:hover .folder-img video{transform:scale(1.07)}
+  .vidbadge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:2}
+  .vidbadge::after{content:'▶';color:#fff;font-size:1.15rem;width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding-left:3px;box-shadow:0 4px 14px -4px rgba(0,0,0,.6)}
   .folder-info{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 14px;background:linear-gradient(transparent,rgba(40,8,16,.55) 40%,rgba(40,8,16,.92));color:#fff}
   .folder-name{display:block;font-family:'Playfair Display',Georgia,serif;font-size:1.18rem;font-weight:700;line-height:1.2}
   .folder-count{font-size:.78rem;color:var(--gold-soft);letter-spacing:.04em}
@@ -220,6 +222,7 @@
   .recados{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   .recado{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--cream-2);display:flex;flex-direction:column;transition:.25s}
   .recado:hover{transform:translateY(-4px)}
+  .recado .rmedia{position:relative}
   .recado .img{aspect-ratio:16/10;width:100%;object-fit:cover;display:block}
   .recado .img-ph{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;letter-spacing:.04em}
   .recado .body{padding:18px 20px;display:flex;flex-direction:column;gap:.5rem;flex:1}
@@ -592,9 +595,13 @@ const CAT={
 let ITEMS=[], INFO={}, filtered=[];
 const $=id=>document.getElementById(id);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const isVid=s=>/\.(mp4|webm|ogg|m4v|mov)$/i.test(s||'');
 
 function phMarkup(it,i){
-  if(it.imagem){return '<img src="'+it.imagem+'" alt="'+esc(it.legenda)+'" style="width:100%;height:100%;object-fit:cover">';}
+  if(it.imagem){
+    if(isVid(it.imagem))return '<video src="'+it.imagem+'" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover"></video><span class="vidbadge"></span>';
+    return '<img src="'+it.imagem+'" alt="'+esc(it.legenda)+'" style="width:100%;height:100%;object-fit:cover">';
+  }
   const icon=it.video?vidIcon:camIcon, cls=CLS[i%CLS.length];
   return '<div class="ph '+cls+'">'+icon+'<span>'+(it.video?'VÍDEO':'FOTO')+'</span><small>'+esc(it.legenda)+'</small></div>';
 }
@@ -648,7 +655,8 @@ function buildFolders(){
   Object.keys(groups).forEach(c=>{if(!order.includes(c))order.push(c);});
   box.innerHTML=order.map(c=>{
     const items=groups[c]; const cover=(items.find(i=>i.capa)||items[0]).imagem; const label=CATS[c]||c;
-    return '<a class="folder" href="galeria.html?cat='+encodeURIComponent(c)+'"><div class="folder-img"><img src="'+cover+'" alt="'+esc(label)+'" loading="lazy"></div><div class="folder-info"><span class="folder-name">'+esc(label)+'</span><span class="folder-count">'+items.length+(items.length>1?' fotos':' foto')+'</span></div></a>';
+    const coverTag=isVid(cover)?'<video src="'+cover+'" muted playsinline preload="metadata"></video><span class="vidbadge"></span>':'<img src="'+cover+'" alt="'+esc(label)+'" loading="lazy">';
+    return '<a class="folder" href="galeria.html?cat='+encodeURIComponent(c)+'"><div class="folder-img">'+coverTag+'</div><div class="folder-info"><span class="folder-name">'+esc(label)+'</span><span class="folder-count">'+items.length+(items.length>1?' itens':' item')+'</span></div></a>';
   }).join('');
 }
 
@@ -676,8 +684,8 @@ carEl.addEventListener('mouseleave',()=>auto=setInterval(()=>go(cur+1),5000));
 
 /* ===== Lightbox (imagem única) ===== */
 const lb=$('lightbox'),lbContent=$('lbContent'),lbCap=$('lbCap');
-function openImg(src,cap){lbContent.innerHTML='<img src="'+src+'" alt="'+(cap||'')+'" style="width:100%;height:100%;object-fit:contain;background:#1a060b">';lbCap.textContent=cap||'';lb.classList.add('open');document.body.style.overflow='hidden';}
-function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
+function openImg(src,cap){lbContent.innerHTML=isVid(src)?'<video src="'+src+'" controls autoplay playsinline style="width:100%;height:100%;object-fit:contain;background:#000"></video>':'<img src="'+src+'" alt="'+(cap||'')+'" style="width:100%;height:100%;object-fit:contain;background:#1a060b">';lbCap.textContent=cap||'';lb.classList.add('open');document.body.style.overflow='hidden';}
+function closeLB(){lb.classList.remove('open');lbContent.innerHTML='';document.body.style.overflow='';}
 $('lbClose').onclick=closeLB;
 lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.classList.contains('open'))closeLB();});
@@ -697,7 +705,7 @@ function renderRecados(itens){
   if(!itens||!itens.length){box.innerHTML='<div class="empty">Nenhum recado por enquanto. Volte logo!</div>';return;}
   box.innerHTML='<div class="recados">'+itens.map((it,i)=>{
     const c=CAT[it.categoria]||{label:it.categoria||'',color:'#6e1d2c'};
-    const media=it.imagem?'<img class="img" src="'+it.imagem+'" alt="'+esc(it.titulo)+'" data-img="'+it.imagem+'" title="Clique para ampliar">':'<div class="img-ph '+CLS[i%CLS.length]+'">'+camIcon+'</div>';
+    const media=it.imagem?(isVid(it.imagem)?'<div class="rmedia"><video class="img" src="'+it.imagem+'" muted playsinline preload="metadata" data-img="'+it.imagem+'" title="Clique para assistir"></video><span class="vidbadge"></span></div>':'<img class="img" src="'+it.imagem+'" alt="'+esc(it.titulo)+'" data-img="'+it.imagem+'" title="Clique para ampliar">'):'<div class="img-ph '+CLS[i%CLS.length]+'">'+camIcon+'</div>';
     return '<article class="recado">'+media+'<div class="body"><span class="tag" style="background:'+c.color+'">'+esc(c.label)+'</span>'+
       (it.data?'<span class="data">'+esc(it.data)+'</span>':'')+'<h4>'+esc(it.titulo)+'</h4><p>'+esc(it.texto)+'</p></div></article>';
   }).join('')+'</div>';

@@ -2,7 +2,7 @@
 media:
   input: uploads
   output: /uploads
-  categories: [image, audio]
+  categories: [image, audio, video]
 
 content:
   - name: galeria
@@ -19,8 +19,8 @@ content:
             summary: "{legenda}"
         fields:
           - name: imagem
-            label: Foto
-            type: image
+            label: "Foto ou vídeo (.mp4)"
+            type: file
           - name: legenda
             label: Legenda
             type: string
@@ -38,7 +38,7 @@ content:
                 - { name: coreografias, label: Coreografias }
                 - { name: festivais, label: Festivais }
           - name: video
-            label: É vídeo?
+            label: "É vídeo? (opcional — o site já reconhece .mp4 sozinho)"
             type: boolean
           - name: capa
             label: "Usar como capa da pasta (categoria)"

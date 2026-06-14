@@ -30,7 +30,7 @@
   .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
   .ph-item{aspect-ratio:1;border-radius:12px;overflow:hidden;cursor:zoom-in;position:relative;box-shadow:var(--shadow);transition:.2s;background:#3a0f1a}
   .ph-item:hover{transform:scale(1.04)}
-  .ph-item img{width:100%;height:100%;object-fit:cover;display:block}
+  .ph-item img,.ph-item video{width:100%;height:100%;object-fit:cover;display:block}
   .ph-item .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
   .ph-item .play span{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;color:#fff}
   .empty{text-align:center;color:var(--muted);font-style:italic;padding:50px 10px}
@@ -39,7 +39,7 @@
   .lightbox{position:fixed;inset:0;z-index:100;background:rgba(20,6,11,.94);display:none;align-items:center;justify-content:center;padding:20px}
   .lightbox.open{display:flex}
   .lb-content{max-width:92vw;max-height:86vh}
-  .lb-content img{max-width:92vw;max-height:86vh;border-radius:12px;box-shadow:0 30px 80px -20px #000;display:block}
+  .lb-content img,.lb-content video{max-width:92vw;max-height:86vh;border-radius:12px;box-shadow:0 30px 80px -20px #000;display:block;background:#000}
   .lb-close{position:absolute;top:18px;right:24px;background:none;border:0;color:#fff;font-size:2.4rem;cursor:pointer;line-height:1}
   .lb-cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#fff;font-weight:600}
   @media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
@@ -81,11 +81,12 @@
 <script>
 const CATS={destaque:'Destaque',alunos:'Alunos',eventos:'Eventos',aulas:'Aulas',praticas:'Práticas',apresentacoes:'Apresentações',coreografias:'Coreografias',festivais:'Festivais'};
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const isVid=s=>/\.(mp4|webm|ogg|m4v|mov)$/i.test(s||'');
 const $=id=>document.getElementById(id);
 async function getJSON(p,f){try{const r=await fetch(p,{cache:'no-cache'});return await r.json();}catch(e){return f;}}
 const lb=$('lightbox'),lbContent=$('lbContent'),lbCap=$('lbCap');
-function openImg(src,cap){lbContent.innerHTML='<img src="'+src+'" alt="'+(cap||'')+'">';lbCap.textContent=cap||'';lb.classList.add('open');document.body.style.overflow='hidden';}
-function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
+function openImg(src,cap){lbContent.innerHTML=isVid(src)?'<video src="'+src+'" controls autoplay playsinline></video>':'<img src="'+src+'" alt="'+(cap||'')+'">';lbCap.textContent=cap||'';lb.classList.add('open');document.body.style.overflow='hidden';}
+function closeLB(){lb.classList.remove('open');lbContent.innerHTML='';document.body.style.overflow='';}
 $('lbClose').onclick=closeLB;
 lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.classList.contains('open'))closeLB();});
@@ -103,11 +104,13 @@ async function load(){
   const g=await getJSON('content/gallery.json',{itens:[]});
   const itens=((g&&g.itens)||[]).filter(i=>i.imagem&&(''+i.imagem).trim()&&(!cat||i.categoria===cat)).reverse();
   const grid=$('grid');
-  $('catCount').textContent=itens.length?(itens.length+(itens.length>1?' fotos':' foto')):'';
-  if(!itens.length){grid.innerHTML='<div class="empty">Ainda não há fotos nesta categoria.</div>';return;}
-  grid.innerHTML=itens.map(it=>
-    '<div class="ph-item" data-img="'+it.imagem+'" data-cap="'+esc(it.legenda)+'"><img src="'+it.imagem+'" alt="'+esc(it.legenda)+'" loading="lazy">'+(it.video?'<div class="play"><span>▶</span></div>':'')+'</div>'
-  ).join('');
+  $('catCount').textContent=itens.length?(itens.length+(itens.length>1?' itens':' item')):'';
+  if(!itens.length){grid.innerHTML='<div class="empty">Ainda não há itens nesta categoria.</div>';return;}
+  grid.innerHTML=itens.map(it=>{
+    const v=isVid(it.imagem);
+    const media=v?'<video src="'+it.imagem+'" muted playsinline preload="metadata"></video>':'<img src="'+it.imagem+'" alt="'+esc(it.legenda)+'" loading="lazy">';
+    return '<div class="ph-item" data-img="'+it.imagem+'" data-cap="'+esc(it.legenda)+'">'+media+((v||it.video)?'<div class="play"><span>▶</span></div>':'')+'</div>';
+  }).join('');
   grid.querySelectorAll('.ph-item').forEach(el=>el.onclick=()=>openImg(el.dataset.img,el.dataset.cap));
 }
 load();
