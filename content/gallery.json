@@ -35,6 +35,12 @@
       "legenda": "Aula de quarta",
       "categoria": "aulas",
       "video": false
+    },
+    {
+      "imagem": "/uploads/IMG_3358.jpeg",
+      "legenda": "Aula de samba no pé com Pablo Santos de SP",
+      "categoria": "eventos",
+      "video": false
     }
   ]
 }
