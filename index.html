@@ -86,12 +86,12 @@
   .brand{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.32rem;letter-spacing:.01em;color:var(--wine);display:flex;align-items:center;gap:.7rem}
   .brand span{color:var(--gold)}
   .brand img{height:52px;width:52px;border-radius:50%;object-fit:cover;display:block;box-shadow:0 0 0 2px var(--gold)}
-  .nav-links{display:flex;gap:1.6rem;align-items:center}
-  .nav-links a:not(.nav-cta){font-size:.93rem;font-weight:600;color:var(--ink);letter-spacing:.01em;transition:color .2s;position:relative;padding-bottom:5px}
+  .nav-links{display:flex;gap:1.05rem;align-items:center;flex-wrap:nowrap}
+  .nav-links a:not(.nav-cta){font-size:.86rem;font-weight:600;color:var(--ink);letter-spacing:.003em;white-space:nowrap;transition:color .2s;position:relative;padding-bottom:5px}
   .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);border-radius:2px;transition:width .25s ease}
   .nav-links a:not(.nav-cta):hover{color:var(--wine)}
   .nav-links a:not(.nav-cta):hover::after{width:100%}
-  .nav-cta{padding:.58rem 1.2rem;background:var(--wine);color:#fff !important;border-radius:999px;font-weight:700;border:0;box-shadow:0 6px 16px -6px rgba(110,29,44,.5)}
+  .nav-cta{padding:.55rem 1.05rem;background:var(--wine);color:#fff !important;border-radius:999px;font-weight:700;border:0;box-shadow:0 6px 16px -6px rgba(110,29,44,.5);white-space:nowrap}
   .nav-cta:hover{background:var(--wine-dark)}
   .menu-btn{display:none;background:none;border:0;font-size:1.6rem;color:var(--wine);cursor:pointer}
   .hero{position:relative;background:linear-gradient(135deg,var(--wine-dark),var(--wine) 55%,#7e2535);color:#fff;padding:96px 0 88px;overflow:hidden}
@@ -250,7 +250,9 @@
   .cta .grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
   .cta h2{font-size:clamp(1.9rem,3.6vw,2.7rem)}
   .cta p{color:rgba(255,255,255,.9);margin:1rem 0 1.6rem}
-  .cta .info{font-weight:600;margin:.4rem 0;display:flex;align-items:center;gap:.6rem}
+  .cta .contato{margin:1.2rem 0 .2rem;border-left:2px solid var(--gold);padding-left:16px}
+  .cta .info{font-weight:500;margin:.45rem 0;display:flex;align-items:flex-start;gap:.6rem;font-size:1.02rem;line-height:1.45}
+  .cta .info .ico{flex:0 0 1.4rem;text-align:center;font-size:1.02rem}
   .map{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);min-height:300px;border:0;width:100%}
   footer{background:var(--wine-dark);color:rgba(255,255,255,.8);text-align:center;padding:40px 0}
   footer .brand{justify-content:center;color:#fff;font-size:1.3rem}
@@ -289,10 +291,13 @@
   .lb-nav:hover{background:var(--gold);color:var(--wine-dark)}
   .lb-prev{left:18px}.lb-next{right:18px}
   .lb-cap{position:absolute;bottom:24px;left:0;right:0;text-align:center;color:#fff;font-weight:600}
-  @media(max-width:860px){
-    .nav-links{position:fixed;top:74px;left:0;right:0;background:var(--cream);flex-direction:column;padding:18px 22px;gap:1rem;box-shadow:var(--shadow);transform:translateY(-160%);transition:.35s;border-bottom:1px solid var(--cream-2)}
+  @media(min-width:1025px) and (max-width:1180px){.brand-name{display:none}}
+  @media(max-width:1024px){
+    .nav-links{position:fixed;top:74px;left:0;right:0;background:var(--cream);flex-direction:column;align-items:flex-start;padding:18px 22px;gap:1rem;box-shadow:var(--shadow);transform:translateY(-160%);transition:.35s;border-bottom:1px solid var(--cream-2);flex-wrap:wrap}
     .nav-links.open{transform:translateY(0)}
     .menu-btn{display:block}
+  }
+  @media(max-width:860px){
     .quem .grid,.cta .grid{grid-template-columns:1fr}
     .cards,.depo-grid,.recados{grid-template-columns:1fr}
     .gal-folders{grid-template-columns:repeat(2,1fr);gap:12px}
@@ -512,9 +517,11 @@
         <div class="eyebrow" style="color:var(--gold-soft)">Vamos dançar?</div>
         <h2>Sua primeira aula espera por você</h2>
         <p>Manda uma mensagem, escolhe seu ritmo e vem sentir o que a dança faz. Não precisa de par — só de vontade.</p>
-        <div class="info">📍 <span data-bind="endereco">Rua Dr. Cassiano, 446/1 — Pelotas/RS</span></div>
-        <div class="info">💬 WhatsApp · clique para conversar</div>
-        <div style="margin-top:1.6rem">
+        <div class="contato">
+          <div class="info"><span class="ico">📍</span><span data-bind="endereco">Rua Dr. Cassiano, 446/1 — Pelotas/RS</span></div>
+          <div class="info"><span class="ico">💬</span><span>WhatsApp · clique para conversar</span></div>
+        </div>
+        <div style="margin-top:1.7rem">
           <a id="waBtn" href="#" target="_blank" rel="noopener" class="btn btn-primary">Agendar pelo WhatsApp</a>
         </div>
       </div>
@@ -601,7 +608,7 @@ function bindInfo(){
   if($('musicAudio')) $('musicAudio').src=INFO.musica||'/uploads/musica.mp3';
   // logo
   if(INFO.logo){
-    $('brand').innerHTML='<img src="'+INFO.logo+'" alt="Elenice & Marcelo Dança de Salão"><span style="font-family:\'Playfair Display\',Georgia,serif;color:var(--wine)">Elenice <em style="color:var(--gold);font-style:normal">&amp;</em> Marcelo</span>';
+    $('brand').innerHTML='<img src="'+INFO.logo+'" alt="Elenice & Marcelo Dança de Salão"><span class="brand-name" style="font-family:\'Playfair Display\',Georgia,serif;color:var(--wine)">Elenice <em style="color:var(--gold);font-style:normal">&amp;</em> Marcelo</span>';
     $('brandFoot').innerHTML='<img src="'+INFO.logo+'" alt="" style="height:46px;width:46px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:.5rem">Elenice &amp; Marcelo';
     $('favicon').href=INFO.logo;
     if($('heroLogo')) $('heroLogo').innerHTML='<img src="'+INFO.logo+'" alt="Elenice & Marcelo Dança de Salão">';
