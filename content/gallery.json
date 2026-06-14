@@ -11,6 +11,12 @@
       "legenda": "Turma de terça",
       "categoria": "aulas",
       "video": false
+    },
+    {
+      "imagem": "/uploads/57fced0a-206e-403c-bbbb-b28d79d3a195.jpg",
+      "legenda": "Com nossos alunos Paulo e Maria",
+      "categoria": "alunos",
+      "video": false
     }
   ]
 }
