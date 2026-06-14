@@ -117,6 +117,13 @@
       "categoria": "aulas",
       "video": false,
       "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 13.08.20.jpeg",
+      "legenda": "Turma de segunda, aula temática de Carnaval.",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
     }
   ]
 }
