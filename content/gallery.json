@@ -41,6 +41,11 @@
       "legenda": "Aula de samba no pé com Pablo Santos de SP",
       "categoria": "eventos",
       "video": false
+    },
+    {
+      "legenda": "Semana da Mulher",
+      "categoria": "eventos",
+      "video": false
     }
   ]
 }
