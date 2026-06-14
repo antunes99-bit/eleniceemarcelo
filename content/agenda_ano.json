@@ -1,8 +1,26 @@
 {
   "itens": [
-    { "data": "Março", "titulo": "Início das turmas 2026", "descricao": "Retomada das aulas regulares de Forró, Samba e Bolero." },
-    { "data": "Junho", "titulo": "Arraial do Salão", "descricao": "Festa junina com forró pé de serra para alunos e convidados." },
-    { "data": "Setembro", "titulo": "Mostra de Dança", "descricao": "Apresentação das turmas com coreografias preparadas no semestre." },
-    { "data": "Dezembro", "titulo": "Baile de Encerramento", "descricao": "Confraternização de fim de ano com todos os ritmos." }
+    { "data": "21/02", "titulo": "Aulão de Samba no Pé — Pablo Santos", "descricao": "Com o passista de São Paulo Pablo Santos. Após, prática de baile." },
+    { "data": "28/02", "titulo": "2º Baile de Carnaval à moda antiga", "descricao": "Com Xana Gallo." },
+    { "data": "02 a 06/03", "titulo": "Semana da Mulher", "descricao": "Programação surpresa." },
+    { "data": "07/03", "titulo": "Baile de aniversário dos professores", "descricao": "Evento da escola." },
+    { "data": "24/04", "titulo": "Baile da Escola", "descricao": "" },
+    { "data": "29/04", "titulo": "Dia Internacional da Dança", "descricao": "Ação na rua." },
+    { "data": "01 a 03/05", "titulo": "Ritmos a Dois — Rio Grande", "descricao": "Evento em que daremos aula. Caravana da escola." },
+    { "data": "29/05", "titulo": "Baile da Escola", "descricao": "" },
+    { "data": "Junho", "titulo": "Mês da Copa e dos Namorados", "descricao": "Programação especial ao longo do mês." },
+    { "data": "26/06", "titulo": "Bailinho mensal", "descricao": "" },
+    { "data": "27/06", "titulo": "Evento privado", "descricao": "" },
+    { "data": "09 a 12/07", "titulo": "Baila Costão", "descricao": "" },
+    { "data": "18/07", "titulo": "Baile Julino", "descricao": "Na Sociedade Italiana. Organização nossa." },
+    { "data": "08/08", "titulo": "Evento privado", "descricao": "" },
+    { "data": "21 a 23/08", "titulo": "Baila Litoral", "descricao": "Caravana da escola (a confirmar)." },
+    { "data": "29/08", "titulo": "Baile da Escola", "descricao": "" },
+    { "data": "Setembro", "titulo": "Temática do Setembro Amarelo", "descricao": "Programação com a temática do mês." },
+    { "data": "Outubro", "titulo": "Mês temático", "descricao": "Dia das Crianças, Outubro Rosa e Halloween. Oktoberfest a combinar." },
+    { "data": "Novembro", "titulo": "Temática do Novembro Azul", "descricao": "Programação com a temática do mês." },
+    { "data": "07 e 08/11", "titulo": "Sambapel", "descricao": "" },
+    { "data": "28/11", "titulo": "2ª ed. do Baile Vermelho e Branco", "descricao": "Nossa festa de final de ano — evento importante." },
+    { "data": "18 e 19/12", "titulo": "Eventos de encerramento", "descricao": "Com certificação para as turmas (Escola)." }
   ]
 }
