@@ -36,13 +36,6 @@
       "capa": false
     },
     {
-      "imagem": "/uploads/IMG_3315.jpeg",
-      "legenda": "Aula de quarta",
-      "categoria": "aulas",
-      "video": false,
-      "capa": false
-    },
-    {
       "imagem": "/uploads/IMG_3358.jpeg",
       "legenda": "Aula de samba no pé com Pablo Santos de SP",
       "categoria": "eventos",
@@ -92,6 +85,9 @@
       "capa": false
     },
     {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.32.33.jpeg",
+      "legenda": "Turma de quarta 18h15",
+      "categoria": "aulas",
       "video": false,
       "capa": false
     }
