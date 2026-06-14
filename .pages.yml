@@ -35,11 +35,101 @@ content:
             label: É vídeo?
             type: boolean
 
+  - name: mural_recados
+    label: "Mural de recados"
+    type: file
+    path: content/mural.json
+    fields:
+      - name: itens
+        label: Recados
+        type: object
+        list:
+          collapsible:
+            summary: "{titulo}"
+        fields:
+          - name: imagem
+            label: "Imagem / cartaz (opcional)"
+            type: image
+          - name: titulo
+            label: Título
+            type: string
+          - name: data
+            label: "Data / quando (texto livre)"
+            type: string
+          - name: categoria
+            label: Categoria
+            type: select
+            options:
+              values:
+                - { name: evento, label: "Evento / chamada" }
+                - { name: agenda_profes, label: "Agenda dos professores" }
+                - { name: data_importante, label: "Data importante" }
+                - { name: aviso, label: "Aviso geral" }
+          - name: texto
+            label: Texto do recado
+            type: text
+
+  - name: agenda_ano
+    label: "Agenda do ano"
+    type: file
+    path: content/agenda_ano.json
+    fields:
+      - name: itens
+        label: Programação
+        type: object
+        list:
+          collapsible:
+            summary: "{data} — {titulo}"
+        fields:
+          - name: data
+            label: "Data / mês"
+            type: string
+          - name: titulo
+            label: Título
+            type: string
+          - name: descricao
+            label: Descrição
+            type: text
+
+  - name: agenda_fds
+    label: "Fim de semana (eventos da cidade)"
+    type: file
+    path: content/agenda_fds.json
+    fields:
+      - name: itens
+        label: Eventos
+        type: object
+        list:
+          collapsible:
+            summary: "{data} — {titulo}"
+        fields:
+          - name: data
+            label: "Quando (ex.: Sáb 22h)"
+            type: string
+          - name: titulo
+            label: Título
+            type: string
+          - name: local
+            label: Local
+            type: string
+          - name: descricao
+            label: Descrição
+            type: text
+          - name: link
+            label: "Link (opcional)"
+            type: string
+
   - name: info
     label: "Informações & Horários"
     type: file
     path: content/info.json
     fields:
+      - name: logo
+        label: "Logo (imagem) — aparece no topo, hero e ícone do site"
+        type: image
+      - name: foto_casal
+        label: "Foto do casal (seção Quem somos)"
+        type: image
       - name: whatsapp
         label: "WhatsApp (só números, com 55)"
         type: string
