@@ -6,6 +6,9 @@
 <title>Elenice & Marcelo — Dança de Salão | Pelotas/RS</title>
 <meta name="description" content="Escola de Dança de Salão de Elenice e Marcelo Antunes, em Pelotas. Forró, samba, bolero, soltinho, bachata e mais. Turmas por nível. Não precisa ter par.">
 <link id="favicon" rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -25,7 +28,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;overflow-x:hidden}
-  h1,h2,h3{font-family:Georgia,'Times New Roman',serif;line-height:1.15;font-weight:700}
+  h1,h2,h3{font-family:'Playfair Display',Georgia,'Times New Roman',serif;line-height:1.15;font-weight:700}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
   .eyebrow{font-family:'Segoe UI',sans-serif;letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;font-weight:700;color:var(--gold)}
@@ -38,9 +41,9 @@
   .center{text-align:center}
   header{position:sticky;top:0;z-index:50;background:rgba(250,245,238,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--cream-2)}
   nav{display:flex;align-items:center;justify-content:space-between;height:74px}
-  .brand{font-family:Georgia,serif;font-weight:700;font-size:1.2rem;color:var(--wine);display:flex;align-items:center;gap:.6rem}
+  .brand{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.32rem;letter-spacing:.01em;color:var(--wine);display:flex;align-items:center;gap:.7rem}
   .brand span{color:var(--gold)}
-  .brand img{height:50px;width:50px;border-radius:50%;object-fit:cover;display:block}
+  .brand img{height:52px;width:52px;border-radius:50%;object-fit:cover;display:block;box-shadow:0 0 0 2px var(--gold)}
   .nav-links{display:flex;gap:1.4rem;align-items:center}
   .nav-links a{font-size:.92rem;font-weight:600;color:var(--ink);transition:.2s}
   .nav-links a:hover{color:var(--wine)}
@@ -58,7 +61,7 @@
   .hero .wrap.hero-wrap{max-width:1060px;display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center}
   .hero-text{max-width:600px}
   .hero-logo{display:flex;justify-content:center;align-items:center}
-  .hero-logo img{width:min(300px,72vw);aspect-ratio:1;border-radius:50%;object-fit:cover;box-shadow:0 22px 60px -16px rgba(0,0,0,.65)}
+  .hero-logo img{width:min(300px,72vw);aspect-ratio:1;border-radius:50%;object-fit:cover;box-shadow:0 0 0 6px var(--gold),0 0 0 10px rgba(199,154,75,.3),0 22px 60px -16px rgba(0,0,0,.7)}
   .quem{background:var(--cream)}
   .quem .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
   .quem h2{font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--wine);margin:.4rem 0 1.2rem}
@@ -469,7 +472,7 @@ function bindInfo(){
   if(INFO.google_reviews_url) $('googleBadge').href=INFO.google_reviews_url;
   // logo
   if(INFO.logo){
-    $('brand').innerHTML='<img src="'+INFO.logo+'" alt="Elenice & Marcelo Dança de Salão"><span style="font-family:Georgia,serif;color:var(--wine)">Elenice <em style="color:var(--gold);font-style:normal">&amp;</em> Marcelo</span>';
+    $('brand').innerHTML='<img src="'+INFO.logo+'" alt="Elenice & Marcelo Dança de Salão"><span style="font-family:\'Playfair Display\',Georgia,serif;color:var(--wine)">Elenice <em style="color:var(--gold);font-style:normal">&amp;</em> Marcelo</span>';
     $('brandFoot').innerHTML='<img src="'+INFO.logo+'" alt="" style="height:46px;width:46px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:.5rem">Elenice &amp; Marcelo';
     $('favicon').href=INFO.logo;
     if($('heroLogo')) $('heroLogo').innerHTML='<img src="'+INFO.logo+'" alt="Elenice & Marcelo Dança de Salão">';
