@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria — Elenice & Marcelo Dança de Salão</title>
+<meta name="description" content="Fotos das turmas, eventos e apresentações da escola de dança de salão Elenice & Marcelo, em Pelotas/RS.">
+<link id="favicon" rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{--wine:#6e1d2c;--wine-dark:#511320;--gold:#c79a4b;--gold-soft:#e3c98a;--cream:#faf5ee;--cream-2:#f3e9db;--ink:#2a1c1f;--muted:#7a6a63;--shadow:0 18px 50px -20px rgba(46,16,24,.45);--radius:18px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 22px;width:100%}
+  header{background:rgba(250,245,238,.95);border-bottom:1px solid var(--cream-2);position:sticky;top:0;z-index:10}
+  nav{display:flex;align-items:center;justify-content:space-between;height:74px;max-width:1140px;margin:0 auto;padding:0 22px}
+  .brand{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.32rem;color:var(--wine);display:flex;align-items:center;gap:.7rem}
+  .brand span{color:var(--gold)}
+  .brand img{height:52px;width:52px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--gold)}
+  .back{font-weight:600;color:var(--wine);font-size:.92rem;padding:.5rem 1.1rem;border:1.5px solid var(--cream-2);border-radius:999px;transition:.2s}
+  .back:hover{background:var(--wine);color:#fff;border-color:var(--wine)}
+  .hero{background:linear-gradient(135deg,var(--wine-dark),var(--wine) 60%,#7e2535);color:#fff;padding:52px 0 44px;text-align:center}
+  .eyebrow{letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;font-weight:700;color:var(--gold-soft)}
+  .hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2rem,5vw,3rem);margin:.4rem 0}
+  .hero p{color:rgba(255,255,255,.85);font-size:.95rem}
+  main{flex:1;padding:44px 0 64px}
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .ph-item{aspect-ratio:1;border-radius:12px;overflow:hidden;cursor:zoom-in;position:relative;box-shadow:var(--shadow);transition:.2s;background:#3a0f1a}
+  .ph-item:hover{transform:scale(1.04)}
+  .ph-item img{width:100%;height:100%;object-fit:cover;display:block}
+  .ph-item .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .ph-item .play span{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;color:#fff}
+  .empty{text-align:center;color:var(--muted);font-style:italic;padding:50px 10px}
+  footer{background:var(--wine-dark);color:rgba(255,255,255,.8);text-align:center;padding:30px 0;font-size:.85rem}
+  footer .gold{color:var(--gold-soft)}
+  .lightbox{position:fixed;inset:0;z-index:100;background:rgba(20,6,11,.94);display:none;align-items:center;justify-content:center;padding:20px}
+  .lightbox.open{display:flex}
+  .lb-content{max-width:92vw;max-height:86vh}
+  .lb-content img{max-width:92vw;max-height:86vh;border-radius:12px;box-shadow:0 30px 80px -20px #000;display:block}
+  .lb-close{position:absolute;top:18px;right:24px;background:none;border:0;color:#fff;font-size:2.4rem;cursor:pointer;line-height:1}
+  .lb-cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#fff;font-weight:600}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:560px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <nav>
+    <a href="index.html" class="brand" id="brand">Elenice <span>&amp;</span> Marcelo</a>
+    <a href="index.html#galeria" class="back">← Voltar à galeria</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">O salão em movimento</div>
+    <h1 id="catTitle">Galeria</h1>
+    <p id="catCount"></p>
+  </div>
+</section>
+
+<main>
+  <div class="wrap">
+    <div class="grid" id="grid"><div class="empty">Carregando fotos…</div></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap"><strong class="gold">Elenice &amp; Marcelo</strong> · Dança de Salão · Pelotas/RS</div>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="Fechar">×</button>
+  <div class="lb-content" id="lbContent"></div>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+const CATS={destaque:'Destaque',alunos:'Alunos',eventos:'Eventos',aulas:'Aulas',praticas:'Práticas',apresentacoes:'Apresentações',coreografias:'Coreografias',festivais:'Festivais'};
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const $=id=>document.getElementById(id);
+async function getJSON(p,f){try{const r=await fetch(p,{cache:'no-cache'});return await r.json();}catch(e){return f;}}
+const lb=$('lightbox'),lbContent=$('lbContent'),lbCap=$('lbCap');
+function openImg(src,cap){lbContent.innerHTML='<img src="'+src+'" alt="'+(cap||'')+'">';lbCap.textContent=cap||'';lb.classList.add('open');document.body.style.overflow='hidden';}
+function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
+$('lbClose').onclick=closeLB;
+lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.classList.contains('open'))closeLB();});
+
+async function load(){
+  const cat=new URLSearchParams(location.search).get('cat')||'';
+  const label=CATS[cat]||cat||'Galeria';
+  $('catTitle').textContent=label;
+  document.title=label+' — Elenice & Marcelo Dança de Salão';
+  const info=await getJSON('content/info.json',{});
+  if(info.logo){
+    $('brand').innerHTML='<img src="'+info.logo+'" alt="Elenice & Marcelo"><span style="font-family:\'Playfair Display\',Georgia,serif;color:var(--wine)">Elenice <em style="color:var(--gold);font-style:normal">&amp;</em> Marcelo</span>';
+    $('favicon').href=info.logo;
+  }
+  const g=await getJSON('content/gallery.json',{itens:[]});
+  const itens=((g&&g.itens)||[]).filter(i=>i.imagem&&(''+i.imagem).trim()&&(!cat||i.categoria===cat)).reverse();
+  const grid=$('grid');
+  $('catCount').textContent=itens.length?(itens.length+(itens.length>1?' fotos':' foto')):'';
+  if(!itens.length){grid.innerHTML='<div class="empty">Ainda não há fotos nesta categoria.</div>';return;}
+  grid.innerHTML=itens.map(it=>
+    '<div class="ph-item" data-img="'+it.imagem+'" data-cap="'+esc(it.legenda)+'"><img src="'+it.imagem+'" alt="'+esc(it.legenda)+'" loading="lazy">'+(it.video?'<div class="play"><span>▶</span></div>':'')+'</div>'
+  ).join('');
+  grid.querySelectorAll('.ph-item').forEach(el=>el.onclick=()=>openImg(el.dataset.img,el.dataset.cap));
+}
+load();
+</script>
+</body>
+</html>

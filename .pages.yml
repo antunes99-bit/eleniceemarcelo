@@ -2,6 +2,7 @@
 media:
   input: uploads
   output: /uploads
+  categories: [image, audio]
 
 content:
   - name: galeria
@@ -38,6 +39,9 @@ content:
                 - { name: festivais, label: Festivais }
           - name: video
             label: É vídeo?
+            type: boolean
+          - name: capa
+            label: "Usar como capa da pasta (categoria)"
             type: boolean
 
   - name: mural_recados
@@ -164,6 +168,9 @@ content:
       - name: foto_casal
         label: "Foto do casal (seção Quem somos)"
         type: image
+      - name: musica
+        label: "Música (arquivo .mp3) — toca no botão 'Ouça nossa música'"
+        type: file
       - name: whatsapp
         label: "WhatsApp (só números, com 55)"
         type: string

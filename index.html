@@ -154,7 +154,16 @@
   .galeria .eyebrow{color:var(--gold-soft)}
   .carousel{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:18px;background:#3a0f1a}
   .carousel-track{display:flex;transition:transform .6s cubic-bezier(.5,.05,.2,1)}
-  .slide{min-width:100%;aspect-ratio:16/8;position:relative}
+  .slide{min-width:100%;height:340px;position:relative}
+  .gal-folders{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px}
+  .folder{display:block;border-radius:14px;overflow:hidden;background:#3a0f1a;box-shadow:var(--shadow);transition:.25s;position:relative;text-decoration:none}
+  .folder:hover{transform:translateY(-5px)}
+  .folder-img{aspect-ratio:4/3;overflow:hidden}
+  .folder-img img{width:100%;height:100%;object-fit:cover;transition:.4s;display:block}
+  .folder:hover .folder-img img{transform:scale(1.07)}
+  .folder-info{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 14px;background:linear-gradient(transparent,rgba(40,8,16,.55) 40%,rgba(40,8,16,.92));color:#fff}
+  .folder-name{display:block;font-family:'Playfair Display',Georgia,serif;font-size:1.18rem;font-weight:700;line-height:1.2}
+  .folder-count{font-size:.78rem;color:var(--gold-soft);letter-spacing:.04em}
   .ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:.04em}
   .ph small{font-weight:500;opacity:.7;font-size:.78rem}
   .slide .cap{position:absolute;left:0;right:0;bottom:0;padding:18px 22px;background:linear-gradient(transparent,rgba(40,10,18,.85));font-weight:600}
@@ -286,10 +295,10 @@
     .menu-btn{display:block}
     .quem .grid,.cta .grid{grid-template-columns:1fr}
     .cards,.depo-grid,.recados{grid-template-columns:1fr}
-    .thumbs{grid-template-columns:repeat(2,1fr)}
+    .gal-folders{grid-template-columns:repeat(2,1fr);gap:12px}
     .grade{grid-template-columns:1fr}
     section{padding:60px 0}
-    .slide{aspect-ratio:4/3}
+    .slide{height:210px}
     .hero .wrap.hero-wrap{grid-template-columns:1fr;text-align:center}
     .hero-text{margin:0 auto}
     .hero-actions{justify-content:center}
@@ -436,24 +445,13 @@
       <div class="eyebrow">Nossas turmas</div>
       <h2>O salão em movimento</h2>
     </div>
-    <div class="carousel">
+    <div class="carousel" id="carousel">
       <button class="car-btn car-prev" id="carPrev" aria-label="Anterior">‹</button>
       <div class="carousel-track" id="carTrack"></div>
       <button class="car-btn car-next" id="carNext" aria-label="Próximo">›</button>
     </div>
     <div class="dots" id="carDots"></div>
-    <div class="filters" id="filters">
-      <button class="active" data-f="all">Todos</button>
-      <button data-f="destaque">Destaque</button>
-      <button data-f="alunos">Alunos</button>
-      <button data-f="eventos">Eventos</button>
-      <button data-f="aulas">Aulas</button>
-      <button data-f="praticas">Práticas</button>
-      <button data-f="apresentacoes">Apresentações</button>
-      <button data-f="coreografias">Coreografias</button>
-      <button data-f="festivais">Festivais</button>
-    </div>
-    <div class="thumbs" id="thumbs"></div>
+    <div class="gal-folders" id="galFolders"></div>
     <div class="gal-foot">
       <a id="instaBtn" href="https://instagram.com/eleniceemarcelo" target="_blank" rel="noopener" class="btn btn-primary">Veja mais no nosso Instagram ↗</a>
     </div>
@@ -548,9 +546,7 @@
 
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lbClose" aria-label="Fechar">×</button>
-  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">‹</button>
   <div class="lb-content" id="lbContent"></div>
-  <button class="lb-nav lb-next" id="lbNext" aria-label="Próximo">›</button>
   <div class="lb-cap" id="lbCap"></div>
 </div>
 
@@ -625,23 +621,28 @@ function bindInfo(){
   });
 }
 
-/* ===== Galeria: inicialização (só mostra se houver fotos) ===== */
+/* ===== Galeria: pastas por categoria + carrossel ===== */
+const CATS={destaque:'Destaque',alunos:'Alunos',eventos:'Eventos',aulas:'Aulas',praticas:'Práticas',apresentacoes:'Apresentações',coreografias:'Coreografias',festivais:'Festivais'};
+const CATORDER=['destaque','alunos','eventos','aulas','praticas','apresentacoes','coreografias','festivais'];
 function initGallery(){
-  const carEl=document.querySelector('.carousel'), dots=$('carDots'), filters=$('filters'), thumbs=$('thumbs');
+  const carWrap=$('carousel'), dots=$('carDots'), folders=$('galFolders');
   if(!ITEMS.length){
-    carEl.style.display='none'; dots.style.display='none'; filters.style.display='none';
-    thumbs.innerHTML='<div class="gal-empty">Em breve, as fotos e vídeos do nosso salão. ✨</div>';
+    if(carWrap) carWrap.style.display='none'; if(dots) dots.style.display='none';
+    folders.innerHTML='<div class="gal-empty">Em breve, as fotos e vídeos do nosso salão. ✨</div>';
     return;
   }
-  carEl.style.display=''; dots.style.display='flex';
-  const cats=new Set(ITEMS.map(i=>i.categoria).filter(Boolean));
-  if(cats.size<2){
-    filters.style.display='none';
-  } else {
-    filters.style.display='flex';
-    filters.querySelectorAll('button').forEach(b=>{const f=b.dataset.f;b.style.display=(f==='all'||cats.has(f))?'':'none';});
-  }
-  buildCarousel(); renderThumbs('all');
+  carWrap.style.display=''; dots.style.display='flex';
+  buildCarousel(); buildFolders();
+}
+function buildFolders(){
+  const box=$('galFolders'); const groups={};
+  ITEMS.forEach(p=>{const c=p.categoria||'outros';(groups[c]=groups[c]||[]).push(p);});
+  let order=CATORDER.filter(c=>groups[c]);
+  Object.keys(groups).forEach(c=>{if(!order.includes(c))order.push(c);});
+  box.innerHTML=order.map(c=>{
+    const items=groups[c]; const cover=(items.find(i=>i.capa)||items[0]).imagem; const label=CATS[c]||c;
+    return '<a class="folder" href="galeria.html?cat='+encodeURIComponent(c)+'"><div class="folder-img"><img src="'+cover+'" alt="'+esc(label)+'" loading="lazy"></div><div class="folder-info"><span class="folder-name">'+esc(label)+'</span><span class="folder-count">'+items.length+(items.length>1?' fotos':' foto')+'</span></div></a>';
+  }).join('');
 }
 
 /* ===== Galeria: carrossel ===== */
@@ -652,6 +653,7 @@ function buildCarousel(){
   featured.forEach((it,i)=>{
     const s=document.createElement('div'); s.className='slide';
     s.innerHTML=phMarkup(it,i)+'<div class="cap">'+esc(it.legenda)+(it.video?' · 🎬':'')+'</div>';
+    if(it.imagem){s.style.cursor='zoom-in';s.onclick=()=>openImg(it.imagem,it.legenda);}
     track.appendChild(s);
     const d=document.createElement('button'); if(i===0)d.className='active'; d.onclick=()=>go(i); dotsBox.appendChild(d);
   });
@@ -665,34 +667,13 @@ const carEl=document.querySelector('.carousel');
 carEl.addEventListener('mouseenter',()=>clearInterval(auto));
 carEl.addEventListener('mouseleave',()=>auto=setInterval(()=>go(cur+1),5000));
 
-/* ===== Galeria: miniaturas + filtro ===== */
-function renderThumbs(f){
-  filtered=(f==='all')?ITEMS:ITEMS.filter(i=>i.categoria===f);
-  const box=$('thumbs'); box.innerHTML='';
-  filtered.forEach((it,idx)=>{
-    const t=document.createElement('div'); t.className='thumb';
-    t.innerHTML=phMarkup(it,idx)+(it.video?'<div class="play"><span>▶</span></div>':'');
-    t.onclick=()=>openLB(idx); box.appendChild(t);
-  });
-}
-document.querySelectorAll('#filters button').forEach(b=>{
-  b.onclick=()=>{document.querySelectorAll('#filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderThumbs(b.dataset.f);};
-});
-
-/* ===== Lightbox ===== */
-const lb=$('lightbox'),lbContent=$('lbContent'),lbCap=$('lbCap'); let lbIdx=0;
-function openLB(i){$('lbPrev').style.display='';$('lbNext').style.display='';lbIdx=i;showLB();lb.classList.add('open');document.body.style.overflow='hidden';}
-function openImg(src,cap){lbContent.innerHTML='<img src="'+src+'" alt="'+(cap||'')+'" style="width:100%;height:100%;object-fit:contain;background:#1a060b">';lbCap.textContent=cap||'';$('lbPrev').style.display='none';$('lbNext').style.display='none';lb.classList.add('open');document.body.style.overflow='hidden';}
-function showLB(){const it=filtered[lbIdx];lbContent.innerHTML=phMarkup(it,lbIdx);lbCap.textContent=(it.legenda||'')+(it.video?' · 🎬 vídeo':'');}
+/* ===== Lightbox (imagem única) ===== */
+const lb=$('lightbox'),lbContent=$('lbContent'),lbCap=$('lbCap');
+function openImg(src,cap){lbContent.innerHTML='<img src="'+src+'" alt="'+(cap||'')+'" style="width:100%;height:100%;object-fit:contain;background:#1a060b">';lbCap.textContent=cap||'';lb.classList.add('open');document.body.style.overflow='hidden';}
 function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
 $('lbClose').onclick=closeLB;
-$('lbNext').onclick=()=>{lbIdx=(lbIdx+1)%filtered.length;showLB();};
-$('lbPrev').onclick=()=>{lbIdx=(lbIdx-1+filtered.length)%filtered.length;showLB();};
 lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
-document.addEventListener('keydown',e=>{ if(!lb.classList.contains('open'))return;
-  if(e.key==='Escape')closeLB(); if(e.key==='ArrowRight')$('lbNext').click(); if(e.key==='ArrowLeft')$('lbPrev').click(); });
-let tx=0; lbContent.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
-lbContent.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(dx<-40)$('lbNext').click();if(dx>40)$('lbPrev').click();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.classList.contains('open'))closeLB();});
 
 /* ===== Mural & Agenda ===== */
 function renderAno(itens){
@@ -709,10 +690,11 @@ function renderRecados(itens){
   if(!itens||!itens.length){box.innerHTML='<div class="empty">Nenhum recado por enquanto. Volte logo!</div>';return;}
   box.innerHTML='<div class="recados">'+itens.map((it,i)=>{
     const c=CAT[it.categoria]||{label:it.categoria||'',color:'#6e1d2c'};
-    const media=it.imagem?'<img class="img" src="'+it.imagem+'" alt="'+esc(it.titulo)+'">':'<div class="img-ph '+CLS[i%CLS.length]+'">'+camIcon+'</div>';
+    const media=it.imagem?'<img class="img" src="'+it.imagem+'" alt="'+esc(it.titulo)+'" data-img="'+it.imagem+'" title="Clique para ampliar">':'<div class="img-ph '+CLS[i%CLS.length]+'">'+camIcon+'</div>';
     return '<article class="recado">'+media+'<div class="body"><span class="tag" style="background:'+c.color+'">'+esc(c.label)+'</span>'+
       (it.data?'<span class="data">'+esc(it.data)+'</span>':'')+'<h4>'+esc(it.titulo)+'</h4><p>'+esc(it.texto)+'</p></div></article>';
   }).join('')+'</div>';
+  box.querySelectorAll('.recado .img[data-img]').forEach(img=>{img.style.cursor='zoom-in';img.onclick=()=>openImg(img.dataset.img,img.alt);});
 }
 function renderFds(itens){
   const box=$('tab-fds');
