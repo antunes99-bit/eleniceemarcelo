@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eleniceemarcelo.com.br/sitemap.xml
