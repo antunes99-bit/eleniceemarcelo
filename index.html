@@ -230,6 +230,8 @@
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%{box-shadow:0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
   .music-float{position:fixed;left:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:.55rem;padding:0 18px 0 0;height:58px;border-radius:999px;background:linear-gradient(135deg,var(--wine),var(--wine-dark));border:2px solid var(--gold);box-shadow:0 10px 30px -6px rgba(0,0,0,.45);cursor:pointer;transition:.25s;color:#fff;font-family:'Segoe UI',sans-serif;font-weight:700;font-size:.9rem}
   .music-float:hover{transform:translateY(-2px) scale(1.03)}
+  .music-float.playing{animation:mpulse 1.6s infinite}
+  @keyframes mpulse{0%{box-shadow:0 0 0 0 rgba(199,154,75,.5)}70%{box-shadow:0 0 0 14px rgba(199,154,75,0)}100%{box-shadow:0 0 0 0 rgba(199,154,75,0)}}
   .music-float .mf-ico{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .music-float svg{width:26px;height:26px;fill:var(--gold-soft)}
   .music-float .mf-txt{white-space:nowrap;padding-right:4px}
@@ -510,17 +512,10 @@
 </a>
 
 <button class="music-float" id="musicFloat" aria-label="Ouça nossa música">
-  <span class="mf-ico"><svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1014 17V7h4V3h-6z"/></svg></span>
-  <span class="mf-txt">Ouça nossa música</span>
+  <span class="mf-ico" id="mfIco"><svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1014 17V7h4V3h-6z"/></svg></span>
+  <span class="mf-txt" id="mfTxt">Ouça nossa música</span>
 </button>
-<div class="music-modal" id="musicModal">
-  <div class="music-box">
-    <button class="music-close" id="musicClose" aria-label="Fechar">×</button>
-    <div class="music-title">🎵 Ouça nossa música</div>
-    <div class="music-sub">Dê o play e sinta o ritmo do nosso salão.</div>
-    <iframe id="musicFrame" allow="autoplay" title="Nossa música"></iframe>
-  </div>
-</div>
+<audio id="musicAudio" preload="none"></audio>
 
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lbClose" aria-label="Fechar">×</button>
@@ -578,6 +573,7 @@ function bindInfo(){
   $('waBtn').href=wa; $('waFloat').href=wa;
   if(INFO.instagram) $('instaBtn').href=INFO.instagram;
   if(INFO.google_reviews_url) $('googleBadge').href=INFO.google_reviews_url;
+  if($('musicAudio')) $('musicAudio').src=INFO.musica||'/uploads/musica.mp3';
   // logo
   if(INFO.logo){
     $('brand').innerHTML='<img src="'+INFO.logo+'" alt="Elenice & Marcelo Dança de Salão"><span style="font-family:\'Playfair Display\',Georgia,serif;color:var(--wine)">Elenice <em style="color:var(--gold);font-style:normal">&amp;</em> Marcelo</span>';
@@ -704,14 +700,17 @@ const navLinks=$('navLinks');
 $('menuBtn').onclick=()=>navLinks.classList.toggle('open');
 navLinks.querySelectorAll('a').forEach(a=>a.onclick=()=>navLinks.classList.remove('open'));
 
-/* ===== Player de música ===== */
-const musicModal=$('musicModal'), musicFrame=$('musicFrame');
-const MUSIC_SRC='https://drive.google.com/file/d/1lOarIlkdBh3BpbS8o_2-WWDMiCQbOnA1/preview';
-$('musicFloat').onclick=()=>{musicFrame.src=MUSIC_SRC;musicModal.classList.add('open');document.body.style.overflow='hidden';};
-function closeMusic(){musicModal.classList.remove('open');musicFrame.src='';document.body.style.overflow='';}
-$('musicClose').onclick=closeMusic;
-musicModal.addEventListener('click',e=>{if(e.target===musicModal)closeMusic();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&musicModal.classList.contains('open'))closeMusic();});
+/* ===== Player de música (áudio nativo no site) ===== */
+const audioEl=$('musicAudio'), mfTxt=$('mfTxt'), mFloat=$('musicFloat'), mfIco=$('mfIco');
+const playIco='<svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1014 17V7h4V3h-6z"/></svg>';
+const pauseIco='<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+mFloat.onclick=()=>{
+  if(audioEl.paused){
+    audioEl.play().then(()=>{mfTxt.textContent='Pausar';mfIco.innerHTML=pauseIco;mFloat.classList.add('playing');})
+    .catch(()=>{mfTxt.textContent='Música em breve';setTimeout(()=>{mfTxt.textContent='Ouça nossa música';},2600);});
+  } else { audioEl.pause(); }
+};
+audioEl.onpause=audioEl.onended=()=>{mfTxt.textContent='Ouça nossa música';mfIco.innerHTML=playIco;mFloat.classList.remove('playing');};
 
 /* ===== Carregar conteúdo ===== */
 async function getJSON(path,fallback){ try{const r=await fetch(path,{cache:'no-cache'});return await r.json();}catch(e){return fallback;} }
