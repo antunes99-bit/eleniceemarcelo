@@ -78,7 +78,7 @@ async function load(){
     document.getElementById('favicon').href=info.logo;
   }
   const m=await getJSON('content/midia.json',{itens:[]});
-  const itens=(m&&m.itens)||[];
+  const itens=((m&&m.itens)||[]).slice().reverse();
   const box=document.getElementById('list');
   if(!itens.length){box.innerHTML='<div class="empty">Em breve, as publicações sobre a escola aparecerão aqui.</div>';return;}
   box.innerHTML=itens.map(it=>

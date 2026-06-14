@@ -666,13 +666,14 @@ navLinks.querySelectorAll('a').forEach(a=>a.onclick=()=>navLinks.classList.remov
 /* ===== Carregar conteúdo ===== */
 async function getJSON(path,fallback){ try{const r=await fetch(path,{cache:'no-cache'});return await r.json();}catch(e){return fallback;} }
 async function load(){
+  const rev=a=>(a||[]).slice().reverse();
   const g=await getJSON('content/gallery.json',{itens:[]});
-  ITEMS=((g&&g.itens)||[]).filter(i=>i.imagem&&(''+i.imagem).trim());
+  ITEMS=rev(((g&&g.itens)||[]).filter(i=>i.imagem&&(''+i.imagem).trim()));
   INFO=await getJSON('content/info.json',FALLBACK_INFO);
   bindInfo(); initGallery();
-  renderAno((await getJSON('content/agenda_ano.json',{itens:[]})).itens);
-  renderRecados((await getJSON('content/mural.json',{itens:[]})).itens);
-  renderFds((await getJSON('content/agenda_fds.json',{itens:[]})).itens);
+  renderAno(rev((await getJSON('content/agenda_ano.json',{itens:[]})).itens));
+  renderRecados(rev((await getJSON('content/mural.json',{itens:[]})).itens));
+  renderFds(rev((await getJSON('content/agenda_fds.json',{itens:[]})).itens));
 }
 load();
 </script>
