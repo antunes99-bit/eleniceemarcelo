@@ -10,16 +10,40 @@
   "google_reviews_url": "https://share.google/PAUOxVh3ByhZJk2cm",
   "horarios": [
     {
-      "dia": "Segundas-feiras",
-      "hora": "19h30 — 21h00",
-      "nivel": "Iniciante",
-      "descricao": "Forró e Samba para iniciantes. O ponto de partida perfeito para quem está começando."
+      "dia": "Segunda-feira",
+      "hora": "19h30",
+      "nivel": "Iniciados 1",
+      "descricao": "Samba e Forró."
     },
     {
-      "dia": "Quintas-feiras",
-      "hora": "20h30 — 22h00",
-      "nivel": "Avançado",
-      "descricao": "Samba de Gafieira avançado. Para quem já tem base e quer aprofundar a malandragem e a técnica."
+      "dia": "Terça-feira",
+      "hora": "19h15 e 20h30",
+      "nivel": "Iniciantes",
+      "descricao": "Samba e Forró às 19h15; Forró turbo às 20h30."
+    },
+    {
+      "dia": "Quarta-feira",
+      "hora": "19h15 e 20h30",
+      "nivel": "Iniciantes",
+      "descricao": "Primeiros Passos (Samba/Forró/Bolero) às 19h15; Bachata e Soltinho às 20h30."
+    },
+    {
+      "dia": "Quinta-feira",
+      "hora": "19h15 e 20h30",
+      "nivel": "Iniciados",
+      "descricao": "Forró e Bolero às 19h15 (Iniciados); Samba de Gafieira às 20h30 (Iniciados 2)."
+    },
+    {
+      "dia": "Sexta-feira",
+      "hora": "Agenda móvel",
+      "nivel": "Especial",
+      "descricao": "Programação especial e aulões — confira pelo WhatsApp."
+    },
+    {
+      "dia": "Sábado",
+      "hora": "Agenda móvel",
+      "nivel": "Especial",
+      "descricao": "Eventos e práticas — confira a agenda da semana."
     }
   ]
 }
