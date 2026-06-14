@@ -14,6 +14,7 @@ content:
         type: object
         list:
           collapsible:
+            collapsed: true
             summary: "{legenda}"
         fields:
           - name: imagem
@@ -49,6 +50,7 @@ content:
         type: object
         list:
           collapsible:
+            collapsed: true
             summary: "{titulo}"
         fields:
           - name: imagem
@@ -83,6 +85,7 @@ content:
         type: object
         list:
           collapsible:
+            collapsed: true
             summary: "{data} — {titulo}"
         fields:
           - name: data
@@ -108,6 +111,7 @@ content:
         type: object
         list:
           collapsible:
+            collapsed: true
             summary: "{data} — {titulo}"
         fields:
           - name: data
@@ -136,6 +140,7 @@ content:
         type: object
         list:
           collapsible:
+            collapsed: true
             summary: "{titulo}"
         fields:
           - name: titulo
@@ -185,6 +190,7 @@ content:
         type: object
         list:
           collapsible:
+            collapsed: true
             summary: "{dia} — {hora}"
         fields:
           - name: dia
