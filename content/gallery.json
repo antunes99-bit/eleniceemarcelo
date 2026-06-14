@@ -64,13 +64,6 @@
       "capa": false
     },
     {
-      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.39.08.jpeg",
-      "legenda": "Turma de terça 20h30",
-      "categoria": "aulas",
-      "video": false,
-      "capa": false
-    },
-    {
       "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.37.34.jpeg",
       "legenda": "Turma de quinta as 19h15",
       "categoria": "alunos",
@@ -109,13 +102,6 @@
       "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.29.21.jpeg",
       "legenda": "Turma de Quarta 20h30min",
       "categoria": "alunos",
-      "video": false,
-      "capa": false
-    },
-    {
-      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.27.08 (1).jpeg",
-      "legenda": "Turma de Terça 20h30min",
-      "categoria": "aulas",
       "video": false,
       "capa": false
     },
