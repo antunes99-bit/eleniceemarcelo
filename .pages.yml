@@ -27,6 +27,7 @@ content:
             type: select
             options:
               values:
+                - { name: destaque, label: "Destaque (inauguração)" }
                 - { name: alunos, label: Alunos }
                 - { name: eventos, label: Eventos }
                 - { name: aulas, label: Aulas }
