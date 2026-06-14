@@ -1,16 +1,16 @@
 {
   "itens": [
-    { "ritmo": "forro",   "legenda": "Aulão de Forró no salão",     "video": false, "imagem": "" },
-    { "ritmo": "samba",   "legenda": "Samba de Gafieira em roda",    "video": false, "imagem": "" },
-    { "ritmo": "bolero",  "legenda": "Bolero — compasso lento",      "video": false, "imagem": "" },
-    { "ritmo": "bachata", "legenda": "Bachata na pista",             "video": false, "imagem": "" },
-    { "ritmo": "samba",   "legenda": "Turma avançada de quinta",     "video": true,  "imagem": "" },
-    { "ritmo": "forro",   "legenda": "Primeira aula experimental",   "video": false, "imagem": "" },
-    { "ritmo": "bachata", "legenda": "Casais na bachata",            "video": false, "imagem": "" },
-    { "ritmo": "bolero",  "legenda": "Elegância do bolero",          "video": false, "imagem": "" },
-    { "ritmo": "samba",   "legenda": "Ginga e brasilidade",          "video": true,  "imagem": "" },
-    { "ritmo": "forro",   "legenda": "O salão cheio no forró",       "video": false, "imagem": "" },
-    { "ritmo": "bachata", "legenda": "Ritmo latino",                 "video": false, "imagem": "" },
-    { "ritmo": "bolero",  "legenda": "Romance no salão",             "video": false, "imagem": "" }
+    { "categoria": "eventos",       "legenda": "Aulão de Forró no salão",     "video": false, "imagem": "" },
+    { "categoria": "praticas",      "legenda": "Samba de Gafieira em roda",    "video": false, "imagem": "" },
+    { "categoria": "aulas",         "legenda": "Bolero — compasso lento",      "video": false, "imagem": "" },
+    { "categoria": "praticas",      "legenda": "Bachata na pista",             "video": false, "imagem": "" },
+    { "categoria": "aulas",         "legenda": "Turma avançada de quinta",     "video": true,  "imagem": "" },
+    { "categoria": "aulas",         "legenda": "Primeira aula experimental",   "video": false, "imagem": "" },
+    { "categoria": "alunos",        "legenda": "Casais na bachata",            "video": false, "imagem": "" },
+    { "categoria": "apresentacoes", "legenda": "Elegância do bolero",          "video": false, "imagem": "" },
+    { "categoria": "apresentacoes", "legenda": "Ginga e brasilidade",          "video": true,  "imagem": "" },
+    { "categoria": "eventos",       "legenda": "O salão cheio no forró",       "video": false, "imagem": "" },
+    { "categoria": "praticas",      "legenda": "Ritmo latino",                 "video": false, "imagem": "" },
+    { "categoria": "coreografias",  "legenda": "Romance no salão",             "video": false, "imagem": "" }
   ]
 }
