@@ -226,6 +226,19 @@
   .wa-float{position:fixed;right:20px;bottom:20px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -6px rgba(0,0,0,.4);transition:.25s;animation:pulse 2.4s infinite}
   .wa-float:hover{transform:scale(1.08)}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%{box-shadow:0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+  .music-float{position:fixed;left:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:.55rem;padding:0 18px 0 0;height:58px;border-radius:999px;background:linear-gradient(135deg,var(--wine),var(--wine-dark));border:2px solid var(--gold);box-shadow:0 10px 30px -6px rgba(0,0,0,.45);cursor:pointer;transition:.25s;color:#fff;font-family:'Segoe UI',sans-serif;font-weight:700;font-size:.9rem}
+  .music-float:hover{transform:translateY(-2px) scale(1.03)}
+  .music-float .mf-ico{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .music-float svg{width:26px;height:26px;fill:var(--gold-soft)}
+  .music-float .mf-txt{white-space:nowrap;padding-right:4px}
+  .music-modal{position:fixed;inset:0;z-index:130;background:rgba(20,6,11,.86);display:none;align-items:center;justify-content:center;padding:20px}
+  .music-modal.open{display:flex}
+  .music-box{background:var(--cream);border-radius:var(--radius);padding:24px 22px;width:min(460px,92vw);box-shadow:var(--shadow);position:relative;text-align:center}
+  .music-title{font-family:'Playfair Display',Georgia,serif;color:var(--wine);font-size:1.4rem;margin-bottom:4px}
+  .music-sub{color:var(--muted);font-size:.86rem;margin-bottom:16px}
+  .music-close{position:absolute;top:8px;right:14px;background:none;border:0;font-size:1.9rem;color:var(--wine);cursor:pointer;line-height:1}
+  .music-box iframe{width:100%;height:80px;border:0;border-radius:10px;background:#000}
+  @media(max-width:560px){.music-float .mf-txt{display:none}.music-float{padding:0}}
   .lightbox{position:fixed;inset:0;z-index:100;background:rgba(20,6,11,.94);display:none;align-items:center;justify-content:center}
   .lightbox.open{display:flex}
   .lb-content{max-width:90vw;max-height:84vh;width:min(900px,90vw);aspect-ratio:16/10;border-radius:14px;overflow:hidden;box-shadow:0 30px 80px -20px #000}
@@ -494,6 +507,19 @@
   <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.477-.255zM17.498 14.382c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
 </a>
 
+<button class="music-float" id="musicFloat" aria-label="Ouça nossa música">
+  <span class="mf-ico"><svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1014 17V7h4V3h-6z"/></svg></span>
+  <span class="mf-txt">Ouça nossa música</span>
+</button>
+<div class="music-modal" id="musicModal">
+  <div class="music-box">
+    <button class="music-close" id="musicClose" aria-label="Fechar">×</button>
+    <div class="music-title">🎵 Ouça nossa música</div>
+    <div class="music-sub">Dê o play e sinta o ritmo do nosso salão.</div>
+    <iframe id="musicFrame" allow="autoplay" title="Nossa música"></iframe>
+  </div>
+</div>
+
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lbClose" aria-label="Fechar">×</button>
   <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">‹</button>
@@ -675,6 +701,15 @@ document.querySelectorAll('#muralTabs button').forEach(b=>{
 const navLinks=$('navLinks');
 $('menuBtn').onclick=()=>navLinks.classList.toggle('open');
 navLinks.querySelectorAll('a').forEach(a=>a.onclick=()=>navLinks.classList.remove('open'));
+
+/* ===== Player de música ===== */
+const musicModal=$('musicModal'), musicFrame=$('musicFrame');
+const MUSIC_SRC='https://drive.google.com/file/d/1lOarIlkdBh3BpbS8o_2-WWDMiCQbOnA1/preview';
+$('musicFloat').onclick=()=>{musicFrame.src=MUSIC_SRC;musicModal.classList.add('open');document.body.style.overflow='hidden';};
+function closeMusic(){musicModal.classList.remove('open');musicFrame.src='';document.body.style.overflow='';}
+$('musicClose').onclick=closeMusic;
+musicModal.addEventListener('click',e=>{if(e.target===musicModal)closeMusic();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&musicModal.classList.contains('open'))closeMusic();});
 
 /* ===== Carregar conteúdo ===== */
 async function getJSON(path,fallback){ try{const r=await fetch(path,{cache:'no-cache'});return await r.json();}catch(e){return fallback;} }
