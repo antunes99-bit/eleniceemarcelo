@@ -1,0 +1,82 @@
+# Configuração do painel de edição (Pages CMS) — app.pagescms.org
+media:
+  input: uploads
+  output: /uploads
+
+content:
+  - name: galeria
+    label: "Galeria — O salão em movimento"
+    type: file
+    path: content/gallery.json
+    fields:
+      - name: itens
+        label: Fotos
+        type: object
+        list:
+          collapsible:
+            summary: "{legenda}"
+        fields:
+          - name: imagem
+            label: Foto
+            type: image
+          - name: legenda
+            label: Legenda
+            type: string
+          - name: ritmo
+            label: Ritmo
+            type: select
+            options:
+              values:
+                - { name: forro, label: Forró }
+                - { name: samba, label: Samba }
+                - { name: bolero, label: Bolero }
+                - { name: bachata, label: Bachata }
+          - name: video
+            label: É vídeo?
+            type: boolean
+
+  - name: info
+    label: "Informações & Horários"
+    type: file
+    path: content/info.json
+    fields:
+      - name: whatsapp
+        label: "WhatsApp (só números, com 55)"
+        type: string
+      - name: whatsapp_msg
+        label: "Mensagem inicial do WhatsApp"
+        type: string
+      - name: instagram
+        label: "Link do Instagram"
+        type: string
+      - name: endereco
+        label: "Endereço"
+        type: string
+      - name: hero_subtitulo
+        label: "Frase de abertura"
+        type: string
+      - name: hero_titulo
+        label: "Título principal"
+        type: string
+      - name: google_reviews_url
+        label: "Link das avaliações Google"
+        type: string
+      - name: horarios
+        label: "Grade de horários"
+        type: object
+        list:
+          collapsible:
+            summary: "{dia} — {hora}"
+        fields:
+          - name: dia
+            label: Dia
+            type: string
+          - name: hora
+            label: Horário
+            type: string
+          - name: nivel
+            label: Nível
+            type: string
+          - name: descricao
+            label: Descrição
+            type: text
