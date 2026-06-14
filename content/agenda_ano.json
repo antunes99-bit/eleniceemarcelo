@@ -1,0 +1,8 @@
+{
+  "itens": [
+    { "data": "Março", "titulo": "Início das turmas 2026", "descricao": "Retomada das aulas regulares de Forró, Samba e Bolero." },
+    { "data": "Junho", "titulo": "Arraial do Salão", "descricao": "Festa junina com forró pé de serra para alunos e convidados." },
+    { "data": "Setembro", "titulo": "Mostra de Dança", "descricao": "Apresentação das turmas com coreografias preparadas no semestre." },
+    { "data": "Dezembro", "titulo": "Baile de Encerramento", "descricao": "Confraternização de fim de ano com todos os ritmos." }
+  ]
+}

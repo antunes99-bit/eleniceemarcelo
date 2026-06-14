@@ -1,10 +1,12 @@
 {
+  "logo": "",
+  "foto_casal": "",
   "whatsapp": "5553981124459",
-  "whatsapp_msg": "Olá! Quer agendar uma visita ou uma aula avulsa?",
+  "whatsapp_msg": "Olá! Quero agendar uma aula experimental.",
   "instagram": "https://instagram.com/eleniceemarcelo",
-  "endereco": "Rua Dr. Cassiano, 446/2° andar — Centro - Pelotas/RS",
-  "hero_subtitulo": "A escola do casal Elenice e Marcelo Antunes — onde os passos são só o começo.",
-  "hero_titulo": "Dançar é encontrar-se.",
+  "endereco": "Rua Dr. Cassiano, 446/1 — Pelotas/RS",
+  "hero_titulo": "Mais que dança, um lugar para pertencer.",
+  "hero_subtitulo": "Um espaço onde o ritmo acolhe e o coração conduz.",
   "google_reviews_url": "https://share.google/PAUOxVh3ByhZJk2cm",
   "horarios": [
     {

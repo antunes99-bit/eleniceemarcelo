@@ -1,0 +1,8 @@
+{
+  "itens": [
+    { "titulo": "Aulão aberto de Bachata", "data": "Sábado, 20h", "categoria": "evento", "texto": "Traga um amigo! Aulão especial de bachata neste sábado, aberto a alunos e visitantes.", "imagem": "" },
+    { "titulo": "Marcelo em workshop fora da cidade", "data": "Próxima semana", "categoria": "agenda_profes", "texto": "Na quarta, o Marcelo estará em um workshop de gafieira. A turma de iniciantes segue normal com a Elenice.", "imagem": "" },
+    { "titulo": "Recesso de feriado", "data": "Próxima segunda", "categoria": "data_importante", "texto": "Não haverá aula na segunda do feriado. Retornamos na quinta no horário normal.", "imagem": "" },
+    { "titulo": "Lembrete: levar sapato confortável", "data": "", "categoria": "aviso", "texto": "Para aproveitar melhor a aula, use um calçado leve e que deslize bem no salão.", "imagem": "" }
+  ]
+}

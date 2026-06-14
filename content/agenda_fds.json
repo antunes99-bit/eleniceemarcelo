@@ -1,0 +1,7 @@
+{
+  "itens": [
+    { "data": "Sex 20h", "titulo": "Baile na sociedade", "local": "Centro, Pelotas", "descricao": "Noite de forró e samba aberta à comunidade.", "link": "" },
+    { "data": "Sáb 22h", "titulo": "Noite latina", "local": "Bar/Restaurante na cidade", "descricao": "Bachata e salsa para praticar o que aprendeu na semana.", "link": "" },
+    { "data": "Dom 18h", "titulo": "Domingueira dançante", "local": "Pelotas/RS", "descricao": "Encontro leve de fim de tarde para dançar e socializar.", "link": "" }
+  ]
+}
