@@ -90,9 +90,12 @@ content:
           - name: descricao
             label: Descrição
             type: text
+          - name: imagem
+            label: "Imagem / cartaz (opcional) — clique abre em tela cheia"
+            type: image
 
   - name: agenda_fds
-    label: "Fim de semana (eventos da cidade)"
+    label: "Agenda final de semana"
     type: file
     path: content/agenda_fds.json
     fields:

@@ -133,7 +133,10 @@
   /* agenda do ano - timeline */
   .timeline{max-width:760px;margin:0 auto;position:relative;padding-left:30px}
   .timeline:before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--gold-soft)}
-  .tl-item{position:relative;margin-bottom:22px;background:#fff;border-radius:var(--radius);padding:18px 22px;box-shadow:var(--shadow);border:1px solid var(--cream-2)}
+  .tl-item{position:relative;margin-bottom:22px;background:#fff;border-radius:var(--radius);padding:18px 22px;box-shadow:var(--shadow);border:1px solid var(--cream-2);display:flex;gap:16px;align-items:flex-start}
+  .tl-main{flex:1}
+  .tl-thumb{width:86px;height:86px;border-radius:10px;object-fit:cover;cursor:pointer;flex-shrink:0;transition:.2s;box-shadow:0 6px 16px -8px rgba(46,16,24,.5)}
+  .tl-thumb:hover{transform:scale(1.05)}
   .tl-item:before{content:"";position:absolute;left:-27px;top:24px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--cream)}
   .tl-item .data{display:inline-block;background:var(--wine);color:#fff;font-weight:700;font-size:.78rem;padding:.2rem .7rem;border-radius:999px;margin-bottom:.4rem}
   .tl-item h4{font-family:Georgia,serif;color:var(--wine);font-size:1.15rem;margin-bottom:.2rem}
@@ -349,7 +352,7 @@
     <div class="mural-tabs" id="muralTabs">
       <button class="active" data-tab="ano">Agenda do ano</button>
       <button data-tab="recados">Mural de recados</button>
-      <button data-tab="fds">Fim de semana</button>
+      <button data-tab="fds">Agenda final de semana</button>
     </div>
     <div class="mural-panel" id="tab-ano"></div>
     <div class="mural-panel" id="tab-recados" hidden></div>
@@ -523,7 +526,8 @@ document.querySelectorAll('#filters button').forEach(b=>{
 
 /* ===== Lightbox ===== */
 const lb=$('lightbox'),lbContent=$('lbContent'),lbCap=$('lbCap'); let lbIdx=0;
-function openLB(i){lbIdx=i;showLB();lb.classList.add('open');document.body.style.overflow='hidden';}
+function openLB(i){$('lbPrev').style.display='';$('lbNext').style.display='';lbIdx=i;showLB();lb.classList.add('open');document.body.style.overflow='hidden';}
+function openImg(src,cap){lbContent.innerHTML='<img src="'+src+'" alt="'+(cap||'')+'" style="width:100%;height:100%;object-fit:contain;background:#1a060b">';lbCap.textContent=cap||'';$('lbPrev').style.display='none';$('lbNext').style.display='none';lb.classList.add('open');document.body.style.overflow='hidden';}
 function showLB(){const it=filtered[lbIdx];lbContent.innerHTML=phMarkup(it,lbIdx);lbCap.textContent=(it.legenda||'')+(it.video?' · 🎬 vídeo':'');}
 function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
 $('lbClose').onclick=closeLB;
@@ -539,9 +543,11 @@ lbContent.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-t
 function renderAno(itens){
   const box=$('tab-ano');
   if(!itens||!itens.length){box.innerHTML='<div class="empty">A programação do ano será publicada em breve.</div>';return;}
-  box.innerHTML='<div class="timeline">'+itens.map(it=>
-    '<div class="tl-item"><span class="data">'+esc(it.data)+'</span><h4>'+esc(it.titulo)+'</h4><p>'+esc(it.descricao)+'</p></div>'
-  ).join('')+'</div>';
+  box.innerHTML='<div class="timeline">'+itens.map(it=>{
+    const thumb=it.imagem?'<img class="tl-thumb" src="'+it.imagem+'" alt="'+esc(it.titulo)+'" data-img="'+it.imagem+'" title="Clique para ampliar">':'';
+    return '<div class="tl-item"><div class="tl-main"><span class="data">'+esc(it.data)+'</span><h4>'+esc(it.titulo)+'</h4><p>'+esc(it.descricao)+'</p></div>'+thumb+'</div>';
+  }).join('')+'</div>';
+  box.querySelectorAll('.tl-thumb').forEach(img=>img.onclick=()=>openImg(img.dataset.img,img.alt));
 }
 function renderRecados(itens){
   const box=$('tab-recados');
