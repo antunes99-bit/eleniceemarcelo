@@ -202,6 +202,13 @@
   footer .brand{justify-content:center;color:#fff;font-size:1.3rem}
   footer .ritmos-line{color:var(--gold-soft);margin-top:.4rem;font-size:.9rem}
   footer .small{margin-top:1rem;font-size:.78rem;opacity:.6}
+  .na-midia{margin-bottom:30px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.14)}
+  .nm-title{font-family:'Playfair Display',Georgia,serif;color:var(--gold-soft);font-size:1.25rem;margin-bottom:.9rem;letter-spacing:.04em}
+  .nm-list{display:flex;flex-direction:column;gap:.7rem;max-width:720px;margin:0 auto;text-align:left}
+  .nm-item{color:rgba(255,255,255,.82);font-size:.93rem;line-height:1.4}
+  .nm-item a{color:#fff;border-bottom:1px solid var(--gold);padding-bottom:1px;transition:.2s}
+  .nm-item a:hover{color:var(--gold-soft)}
+  .nm-item .veiculo{display:block;color:var(--gold-soft);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-top:.1rem}
   .wa-float{position:fixed;right:20px;bottom:20px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -6px rgba(0,0,0,.4);transition:.25s;animation:pulse 2.4s infinite}
   .wa-float:hover{transform:scale(1.08)}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%{box-shadow:0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
@@ -376,11 +383,13 @@
     <div class="dots" id="carDots"></div>
     <div class="filters" id="filters">
       <button class="active" data-f="all">Todos</button>
-      <button data-f="forro">Forró</button>
-      <button data-f="samba">Samba</button>
-      <button data-f="bolero">Bolero</button>
-      <button data-f="bachata">Bachata</button>
-      <button data-f="video">Vídeos</button>
+      <button data-f="alunos">Alunos</button>
+      <button data-f="eventos">Eventos</button>
+      <button data-f="aulas">Aulas</button>
+      <button data-f="praticas">Práticas</button>
+      <button data-f="apresentacoes">Apresentações</button>
+      <button data-f="coreografias">Coreografias</button>
+      <button data-f="festivais">Festivais</button>
     </div>
     <div class="thumbs" id="thumbs"></div>
     <div class="gal-foot">
@@ -459,6 +468,7 @@
 
 <footer>
   <div class="wrap">
+    <div class="na-midia" id="naMidia"></div>
     <div class="brand" id="brandFoot">Elenice &amp; Marcelo</div>
     <div class="ritmos-line">Forró · Samba · Bolero · Soltinho · Bachata</div>
     <div class="small">Dança de Salão · Pelotas/RS · © 2026</div>
@@ -480,14 +490,14 @@
 <script>
 /* ===== Conteúdo padrão (fallback) ===== */
 const FALLBACK_GALLERY=[
-  {ritmo:'forro',legenda:'Aulão de Forró no salão',video:false,imagem:''},
-  {ritmo:'samba',legenda:'Samba de Gafieira em roda',video:false,imagem:''},
-  {ritmo:'bolero',legenda:'Bolero — compasso lento',video:false,imagem:''},
-  {ritmo:'bachata',legenda:'Bachata na pista',video:false,imagem:''},
-  {ritmo:'samba',legenda:'Turma avançada de quinta',video:true,imagem:''},
-  {ritmo:'forro',legenda:'Primeira aula experimental',video:false,imagem:''},
-  {ritmo:'bachata',legenda:'Casais na bachata',video:false,imagem:''},
-  {ritmo:'bolero',legenda:'Elegância do bolero',video:false,imagem:''}
+  {categoria:'eventos',legenda:'Aulão de Forró no salão',video:false,imagem:''},
+  {categoria:'praticas',legenda:'Samba de Gafieira em roda',video:false,imagem:''},
+  {categoria:'aulas',legenda:'Bolero — compasso lento',video:false,imagem:''},
+  {categoria:'praticas',legenda:'Bachata na pista',video:false,imagem:''},
+  {categoria:'aulas',legenda:'Turma avançada de quinta',video:true,imagem:''},
+  {categoria:'aulas',legenda:'Primeira aula experimental',video:false,imagem:''},
+  {categoria:'alunos',legenda:'Casais na bachata',video:false,imagem:''},
+  {categoria:'apresentacoes',legenda:'Elegância do bolero',video:false,imagem:''}
 ];
 const FALLBACK_INFO={
   whatsapp:'5553981124459', whatsapp_msg:'Olá! Quero agendar uma aula experimental.',
@@ -570,7 +580,7 @@ carEl.addEventListener('mouseleave',()=>auto=setInterval(()=>go(cur+1),5000));
 
 /* ===== Galeria: miniaturas + filtro ===== */
 function renderThumbs(f){
-  filtered=(f==='all')?ITEMS:(f==='video')?ITEMS.filter(i=>i.video):ITEMS.filter(i=>i.ritmo===f);
+  filtered=(f==='all')?ITEMS:ITEMS.filter(i=>i.categoria===f);
   const box=$('thumbs'); box.innerHTML='';
   filtered.forEach((it,idx)=>{
     const t=document.createElement('div'); t.className='thumb';
@@ -634,6 +644,16 @@ document.querySelectorAll('#muralTabs button').forEach(b=>{
   };
 });
 
+/* ===== Na mídia (rodapé) ===== */
+function renderMidia(itens){
+  const box=$('naMidia'); if(!box)return;
+  if(!itens||!itens.length){box.style.display='none';return;}
+  box.style.display='';
+  box.innerHTML='<div class="nm-title">Na mídia</div><div class="nm-list">'+itens.map(it=>
+    '<div class="nm-item"><a href="'+it.link+'" target="_blank" rel="noopener">'+esc(it.titulo)+' ↗</a>'+(it.veiculo?'<span class="veiculo">'+esc(it.veiculo)+'</span>':'')+'</div>'
+  ).join('')+'</div>';
+}
+
 /* ===== Menu mobile ===== */
 const navLinks=$('navLinks');
 $('menuBtn').onclick=()=>navLinks.classList.toggle('open');
@@ -649,6 +669,7 @@ async function load(){
   renderAno((await getJSON('content/agenda_ano.json',{itens:[]})).itens);
   renderRecados((await getJSON('content/mural.json',{itens:[]})).itens);
   renderFds((await getJSON('content/agenda_fds.json',{itens:[]})).itens);
+  renderMidia((await getJSON('content/midia.json',{itens:[]})).itens);
 }
 load();
 </script>

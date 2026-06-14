@@ -22,15 +22,18 @@ content:
           - name: legenda
             label: Legenda
             type: string
-          - name: ritmo
-            label: Ritmo
+          - name: categoria
+            label: Categoria
             type: select
             options:
               values:
-                - { name: forro, label: Forró }
-                - { name: samba, label: Samba }
-                - { name: bolero, label: Bolero }
-                - { name: bachata, label: Bachata }
+                - { name: alunos, label: Alunos }
+                - { name: eventos, label: Eventos }
+                - { name: aulas, label: Aulas }
+                - { name: praticas, label: Práticas }
+                - { name: apresentacoes, label: Apresentações }
+                - { name: coreografias, label: Coreografias }
+                - { name: festivais, label: Festivais }
           - name: video
             label: É vídeo?
             type: boolean
@@ -120,6 +123,28 @@ content:
             type: text
           - name: link
             label: "Link (opcional)"
+            type: string
+
+  - name: midia
+    label: "Na mídia (links de publicações)"
+    type: file
+    path: content/midia.json
+    fields:
+      - name: itens
+        label: Publicações
+        type: object
+        list:
+          collapsible:
+            summary: "{titulo}"
+        fields:
+          - name: titulo
+            label: "Título da matéria"
+            type: string
+          - name: veiculo
+            label: "Veículo / site (ex.: Bancários Pelotas)"
+            type: string
+          - name: link
+            label: "Link (URL completa)"
             type: string
 
   - name: info
