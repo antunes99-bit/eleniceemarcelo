@@ -86,10 +86,10 @@
   .brand{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.32rem;letter-spacing:.01em;color:var(--wine);display:flex;align-items:center;gap:.7rem}
   .brand span{color:var(--gold)}
   .brand img{height:52px;width:52px;border-radius:50%;object-fit:cover;display:block;box-shadow:0 0 0 2px var(--gold)}
-  .nav-links{display:flex;gap:1.4rem;align-items:center}
-  .nav-links a{font-size:.92rem;font-weight:600;color:var(--ink);transition:.2s}
-  .nav-links a:hover{color:var(--wine)}
-  .nav-cta{padding:.55rem 1.1rem;background:var(--wine);color:#fff !important;border-radius:999px}
+  .nav-links{display:flex;gap:.5rem;align-items:center}
+  .nav-links a:not(.nav-cta){font-size:.86rem;font-weight:600;color:var(--wine);transition:.2s;padding:.5rem .9rem;border-radius:10px;background:var(--cream-2);border:1px solid #e8dcc8}
+  .nav-links a:not(.nav-cta):hover{background:var(--wine);color:#fff;border-color:var(--wine);transform:translateY(-1px)}
+  .nav-cta{padding:.6rem 1.2rem;background:var(--wine);color:#fff !important;border-radius:999px;font-weight:700;border:0;box-shadow:0 6px 16px -6px rgba(110,29,44,.5)}
   .nav-cta:hover{background:var(--wine-dark)}
   .menu-btn{display:none;background:none;border:0;font-size:1.6rem;color:var(--wine);cursor:pointer}
   .hero{position:relative;background:linear-gradient(135deg,var(--wine-dark),var(--wine) 55%,#7e2535);color:#fff;padding:96px 0 88px;overflow:hidden}
@@ -631,7 +631,14 @@ function initGallery(){
     thumbs.innerHTML='<div class="gal-empty">Em breve, as fotos e vídeos do nosso salão. ✨</div>';
     return;
   }
-  carEl.style.display=''; dots.style.display='flex'; filters.style.display='flex';
+  carEl.style.display=''; dots.style.display='flex';
+  const cats=new Set(ITEMS.map(i=>i.categoria).filter(Boolean));
+  if(cats.size<2){
+    filters.style.display='none';
+  } else {
+    filters.style.display='flex';
+    filters.querySelectorAll('button').forEach(b=>{const f=b.dataset.f;b.style.display=(f==='all'||cats.has(f))?'':'none';});
+  }
   buildCarousel(); renderThumbs('all');
 }
 
