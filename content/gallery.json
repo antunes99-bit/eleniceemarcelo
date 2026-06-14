@@ -132,6 +132,12 @@
       "categoria": "apresentacoes",
       "video": true,
       "capa": false
+    },
+    {
+      "legenda": "momentos especias na escola",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
     }
   ]
 }
