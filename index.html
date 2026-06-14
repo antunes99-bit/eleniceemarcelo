@@ -129,6 +129,7 @@
   .thumb .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
   .thumb .play span{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem}
   .gal-foot{text-align:center;margin-top:34px}
+  .gal-empty{text-align:center;color:rgba(255,255,255,.82);font-style:italic;padding:24px 10px 6px;font-size:1.05rem}
   .g1{background:linear-gradient(135deg,#8a2740,#b8506a)}
   .g2{background:linear-gradient(135deg,#7a3d12,#c79a4b)}
   .g3{background:linear-gradient(135deg,#3f2150,#7d4a98)}
@@ -251,6 +252,7 @@
         <a href="#galeria">Galeria</a>
         <a href="#horarios">Horários</a>
         <a href="#mural">Mural</a>
+        <a href="midia.html">Na mídia</a>
         <a href="#depo">Depoimentos</a>
         <a href="#agendar" class="nav-cta">Agendar aula</a>
       </div>
@@ -469,7 +471,6 @@
 
 <footer>
   <div class="wrap">
-    <div class="na-midia" id="naMidia"></div>
     <div class="brand" id="brandFoot">Elenice &amp; Marcelo</div>
     <div class="ritmos-line">Forró · Samba · Bolero · Soltinho · Bachata</div>
     <div class="small">Dança de Salão · Pelotas/RS · © 2026</div>
@@ -556,6 +557,18 @@ function bindInfo(){
     d.innerHTML='<span class="nivel">'+esc(t.nivel)+'</span><div class="dia">'+esc(t.dia)+'</div><span class="hora">'+esc(t.hora)+'</span><p class="desc">'+esc(t.descricao)+'</p>';
     grade.appendChild(d);
   });
+}
+
+/* ===== Galeria: inicialização (só mostra se houver fotos) ===== */
+function initGallery(){
+  const carEl=document.querySelector('.carousel'), dots=$('carDots'), filters=$('filters'), thumbs=$('thumbs');
+  if(!ITEMS.length){
+    carEl.style.display='none'; dots.style.display='none'; filters.style.display='none';
+    thumbs.innerHTML='<div class="gal-empty">Em breve, as fotos e vídeos do nosso salão. ✨</div>';
+    return;
+  }
+  carEl.style.display=''; dots.style.display='flex'; filters.style.display='flex';
+  buildCarousel(); renderThumbs('all');
 }
 
 /* ===== Galeria: carrossel ===== */
@@ -645,16 +658,6 @@ document.querySelectorAll('#muralTabs button').forEach(b=>{
   };
 });
 
-/* ===== Na mídia (rodapé) ===== */
-function renderMidia(itens){
-  const box=$('naMidia'); if(!box)return;
-  if(!itens||!itens.length){box.style.display='none';return;}
-  box.style.display='';
-  box.innerHTML='<div class="nm-title">Na mídia</div><div class="nm-list">'+itens.map(it=>
-    '<div class="nm-item"><a href="'+it.link+'" target="_blank" rel="noopener">'+esc(it.titulo)+' ↗</a>'+(it.veiculo?'<span class="veiculo">'+esc(it.veiculo)+'</span>':'')+'</div>'
-  ).join('')+'</div>';
-}
-
 /* ===== Menu mobile ===== */
 const navLinks=$('navLinks');
 $('menuBtn').onclick=()=>navLinks.classList.toggle('open');
@@ -663,14 +666,13 @@ navLinks.querySelectorAll('a').forEach(a=>a.onclick=()=>navLinks.classList.remov
 /* ===== Carregar conteúdo ===== */
 async function getJSON(path,fallback){ try{const r=await fetch(path,{cache:'no-cache'});return await r.json();}catch(e){return fallback;} }
 async function load(){
-  const g=await getJSON('content/gallery.json',{itens:FALLBACK_GALLERY});
-  ITEMS=(g&&g.itens&&g.itens.length)?g.itens:FALLBACK_GALLERY;
+  const g=await getJSON('content/gallery.json',{itens:[]});
+  ITEMS=((g&&g.itens)||[]).filter(i=>i.imagem&&(''+i.imagem).trim());
   INFO=await getJSON('content/info.json',FALLBACK_INFO);
-  bindInfo(); buildCarousel(); renderThumbs('all');
+  bindInfo(); initGallery();
   renderAno((await getJSON('content/agenda_ano.json',{itens:[]})).itens);
   renderRecados((await getJSON('content/mural.json',{itens:[]})).itens);
   renderFds((await getJSON('content/agenda_fds.json',{itens:[]})).itens);
-  renderMidia((await getJSON('content/midia.json',{itens:[]})).itens);
 }
 load();
 </script>
