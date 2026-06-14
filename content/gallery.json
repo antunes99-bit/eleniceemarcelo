@@ -1,3 +1,10 @@
 {
-  "itens": []
+  "itens": [
+    {
+      "imagem": "/uploads/IMG_2961.jpg",
+      "legenda": "Aulões de inauguação",
+      "categoria": "destaque",
+      "video": false
+    }
+  ]
 }
