@@ -1,0 +1,3 @@
+# Atalho do painel: eleniceemarcelo.com.br/admin -> Pages CMS
+/admin     https://app.pagescms.org/antunes99-bit/eleniceemarcelo/main     302
+/admin/*   https://app.pagescms.org/antunes99-bit/eleniceemarcelo/main     302
