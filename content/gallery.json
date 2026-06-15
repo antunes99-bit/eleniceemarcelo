@@ -138,6 +138,13 @@
       "categoria": "alunos",
       "video": false,
       "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-14 at 15.15.39 (1).mp4",
+      "legenda": "Olha a dica :-)",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
     }
   ]
 }
