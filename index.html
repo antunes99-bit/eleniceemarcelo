@@ -226,6 +226,14 @@
   .recado .img{aspect-ratio:16/10;width:100%;object-fit:cover;display:block}
   .recado .img-ph{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;letter-spacing:.04em}
   .recado .body{padding:18px 20px;display:flex;flex-direction:column;gap:.5rem;flex:1}
+  .recado .share{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:auto;padding-top:.95rem}
+  .recado .share button{font:inherit;font-size:.78rem;font-weight:700;border:0;border-radius:999px;padding:.5rem .95rem;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;line-height:1}
+  .recado .share .wa{background:#25d366;color:#fff}
+  .recado .share .wa:hover{background:#1da851}
+  .recado .share .cp{background:var(--cream-2);color:var(--wine)}
+  .recado .share .cp:hover{background:var(--gold-soft)}
+  .recado.flash{animation:recadoFlash 2.7s ease}
+  @keyframes recadoFlash{0%,100%{box-shadow:var(--shadow)}12%,55%{box-shadow:0 0 0 3px var(--gold),0 14px 40px -10px rgba(199,154,75,.7)}}
   .tag{align-self:flex-start;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;padding:.22rem .7rem;border-radius:999px}
   .recado .data{font-size:.78rem;color:var(--muted);font-weight:600}
   .recado h4{font-family:Georgia,serif;color:var(--wine);font-size:1.2rem}
@@ -596,6 +604,8 @@ let ITEMS=[], INFO={}, filtered=[];
 const $=id=>document.getElementById(id);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const isVid=s=>/\.(mp4|webm|ogg|m4v|mov)$/i.test(s||'');
+const slugify=s=>(s||'').toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
+const waIcon='<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:-2px;margin-right:.3rem"><path d="M12.04 2c-5.46 0-9.9 4.43-9.9 9.9 0 1.74.46 3.45 1.32 4.95L2 22l5.27-1.38a9.9 9.9 0 004.77 1.22h.01c5.46 0 9.9-4.43 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.86 9.86 0 0012.04 2zm5.8 14.16c-.24.68-1.42 1.32-1.95 1.36-.5.04-.96.23-3.24-.68-2.74-1.08-4.48-3.9-4.62-4.08-.13-.18-1.1-1.46-1.1-2.78 0-1.32.69-1.97.94-2.24.24-.27.53-.34.71-.34l.5.01c.16 0 .38-.06.59.45.24.58.81 2 .88 2.14.07.14.12.31.02.49-.09.18-.14.29-.27.45-.14.16-.29.36-.41.48-.14.14-.28.29-.12.57.16.27.71 1.17 1.53 1.9 1.05.93 1.94 1.22 2.21 1.36.27.14.43.12.59-.07.16-.18.68-.8.86-1.07.18-.27.36-.23.61-.14.25.09 1.6.76 1.87.9.27.14.45.2.52.32.07.11.07.64-.17 1.32z"/></svg>';
 
 function phMarkup(it,i){
   if(it.imagem){
@@ -703,13 +713,31 @@ function renderAno(itens){
 function renderRecados(itens){
   const box=$('tab-recados');
   if(!itens||!itens.length){box.innerHTML='<div class="empty">Nenhum recado por enquanto. Volte logo!</div>';return;}
+  const used={};
   box.innerHTML='<div class="recados">'+itens.map((it,i)=>{
     const c=CAT[it.categoria]||{label:it.categoria||'',color:'#6e1d2c'};
+    let slug=slugify(it.titulo)||('recado-'+(i+1)); if(used[slug])slug=slug+'-'+(i+1); used[slug]=1;
     const media=it.imagem?(isVid(it.imagem)?'<div class="rmedia"><video class="img" src="'+it.imagem+'" muted playsinline preload="metadata" data-img="'+it.imagem+'" title="Clique para assistir"></video><span class="vidbadge"></span></div>':'<img class="img" src="'+it.imagem+'" alt="'+esc(it.titulo)+'" data-img="'+it.imagem+'" title="Clique para ampliar">'):'<div class="img-ph '+CLS[i%CLS.length]+'">'+camIcon+'</div>';
-    return '<article class="recado">'+media+'<div class="body"><span class="tag" style="background:'+c.color+'">'+esc(c.label)+'</span>'+
-      (it.data?'<span class="data">'+esc(it.data)+'</span>':'')+'<h4>'+esc(it.titulo)+'</h4><p>'+esc(it.texto)+'</p></div></article>';
+    return '<article class="recado" id="r-'+slug+'" data-slug="'+slug+'" data-title="'+esc(it.titulo)+'" data-when="'+esc(it.data||'')+'">'+media+'<div class="body"><span class="tag" style="background:'+c.color+'">'+esc(c.label)+'</span>'+
+      (it.data?'<span class="data">'+esc(it.data)+'</span>':'')+'<h4>'+esc(it.titulo)+'</h4><p>'+esc(it.texto)+'</p>'+
+      '<div class="share"><button type="button" class="wa">'+waIcon+'Compartilhar</button><button type="button" class="cp">Copiar link</button></div></div></article>';
   }).join('')+'</div>';
   box.querySelectorAll('.recado .img[data-img]').forEach(img=>{img.style.cursor='zoom-in';img.onclick=()=>openImg(img.dataset.img,img.alt);});
+  box.querySelectorAll('.recado').forEach(art=>{
+    const url=location.origin+location.pathname+'?recado='+art.dataset.slug;
+    const title=art.dataset.title||'', when=art.dataset.when||'';
+    const msg='*'+title+'*'+(when?'\n'+when:'')+'\n\nEscola de dança Elenice & Marcelo:\n'+url;
+    const wa=art.querySelector('.wa'), cp=art.querySelector('.cp');
+    if(wa)wa.onclick=()=>window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener');
+    if(cp)cp.onclick=async()=>{try{await navigator.clipboard.writeText(url);const t=cp.textContent;cp.textContent='Link copiado!';setTimeout(()=>cp.textContent=t,1800);}catch(e){prompt('Copie o link do recado:',url);}};
+  });
+}
+function focusRecado(){
+  const slug=new URLSearchParams(location.search).get('recado');
+  if(!slug)return;
+  const tab=document.querySelector('#muralTabs button[data-tab="recados"]'); if(tab)tab.click();
+  const el=document.getElementById('r-'+slug);
+  setTimeout(()=>{ (el||document.getElementById('mural')).scrollIntoView({behavior:'smooth',block:el?'center':'start'}); if(el){el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2800);} },450);
 }
 function renderFds(itens){
   const box=$('tab-fds');
@@ -756,6 +784,7 @@ async function load(){
   renderAno(rev((await getJSON('content/agenda_ano.json',{itens:[]})).itens));
   renderRecados(rev((await getJSON('content/mural.json',{itens:[]})).itens));
   renderFds(rev((await getJSON('content/agenda_fds.json',{itens:[]})).itens));
+  focusRecado();
 }
 load();
 </script>
