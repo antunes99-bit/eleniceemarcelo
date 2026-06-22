@@ -736,8 +736,10 @@ function focusRecado(){
   const slug=new URLSearchParams(location.search).get('recado');
   if(!slug)return;
   const tab=document.querySelector('#muralTabs button[data-tab="recados"]'); if(tab)tab.click();
-  const el=document.getElementById('r-'+slug);
-  setTimeout(()=>{ (el||document.getElementById('mural')).scrollIntoView({behavior:'smooth',block:el?'center':'start'}); if(el){el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2800);} },450);
+  let flashed=false;
+  const go=()=>{ const el=document.getElementById('r-'+slug); if(!el){const m=document.getElementById('mural'); if(m)m.scrollIntoView({behavior:'smooth',block:'start'}); return;} el.scrollIntoView({behavior:'smooth',block:'center'}); if(!flashed){flashed=true; el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),3200);} };
+  [400,1200,2400,3600].forEach(t=>setTimeout(go,t));
+  window.addEventListener('load',()=>setTimeout(go,300));
 }
 function renderFds(itens){
   const box=$('tab-fds');
