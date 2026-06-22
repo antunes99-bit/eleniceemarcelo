@@ -724,7 +724,7 @@ function renderRecados(itens){
   }).join('')+'</div>';
   box.querySelectorAll('.recado .img[data-img]').forEach(img=>{img.style.cursor='zoom-in';img.onclick=()=>openImg(img.dataset.img,img.alt);});
   box.querySelectorAll('.recado').forEach(art=>{
-    const url=location.origin+location.pathname+'?recado='+art.dataset.slug;
+    const url=location.origin+'/e/'+art.dataset.slug;
     const title=art.dataset.title||'', when=art.dataset.when||'';
     const msg='*'+title+'*'+(when?'\n'+when:'')+'\n\nEscola de dança Elenice & Marcelo:\n'+url;
     const wa=art.querySelector('.wa'), cp=art.querySelector('.cp');
