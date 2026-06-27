@@ -159,6 +159,13 @@
       "categoria": "praticas",
       "video": false,
       "capa": true
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-27 at 12.51.28-1.mp4",
+      "legenda": "Arraia interno na escola, muita alegria, diversão e amizade.",
+      "categoria": "praticas",
+      "video": true,
+      "capa": false
     }
   ]
 }
