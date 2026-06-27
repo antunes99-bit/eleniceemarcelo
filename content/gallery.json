@@ -173,6 +173,13 @@
       "categoria": "praticas",
       "video": true,
       "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-27 at 12.48.14 (1).jpeg",
+      "legenda": "Povo gente boa!",
+      "categoria": "praticas",
+      "video": false,
+      "capa": true
     }
   ]
 }
