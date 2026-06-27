@@ -180,6 +180,13 @@
       "categoria": "praticas",
       "video": false,
       "capa": true
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-27 at 13.43.38.mp4",
+      "legenda": "Aniver do querido Rogério",
+      "categoria": "praticas",
+      "video": true,
+      "capa": false
     }
   ]
 }
