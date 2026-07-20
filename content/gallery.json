@@ -180,6 +180,374 @@
       "categoria": "praticas",
       "video": false,
       "capa": true
+    }
+  ]
+}{
+  "itens": [
+    {
+      "imagem": "/uploads/IMG_2961.jpg",
+      "legenda": "Aulões de inauguação",
+      "categoria": "destaque",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/IMG_3315.jpg",
+      "legenda": "Turma de terça",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/57fced0a-206e-403c-bbbb-b28d79d3a195.jpg",
+      "legenda": "Com nossos alunos Paulo e Maria",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/363d7798-91c7-4d59-9f79-072156995a66-1.jpg",
+      "legenda": "Com nossos alunos Joares e Leticia",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/35981e58-565b-405d-b1fd-1637cf48b4fc.jpg",
+      "legenda": "Evento Ritmos a dois de 2025 com Douglas e Karol.",
+      "categoria": "eventos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/IMG_3358.jpeg",
+      "legenda": "Aula de samba no pé com Pablo Santos de SP",
+      "categoria": "eventos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.28.04.jpeg",
+      "legenda": "Aula de quarta",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.27.08-1.jpeg",
+      "legenda": "Aula de terça as 20h30",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.26.06.jpeg",
+      "legenda": "Aula de Terça as 20h30",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.34.41-1.jpeg",
+      "legenda": "Turma de quinta as 19h15",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.32.33.jpeg",
+      "legenda": "Turma de quarta 18h15",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.31.35.jpeg",
+      "legenda": "Turma de quarta 19h15",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.30.42.jpeg",
+      "legenda": "Bailinho das meias coloridas!",
+      "categoria": "eventos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.29.21.jpeg",
+      "legenda": "Turma de Quarta 20h30min",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.26.06 (3).jpeg",
+      "legenda": "Terça 20h30min",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.23.12 (3).jpeg",
+      "legenda": "Turma de segunda as 19h15",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 13.08.20.jpeg",
+      "legenda": "Turma de segunda, aula temática de Carnaval.",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 13.12.31.jpeg",
+      "legenda": "Turma de terça 19h15min Aula de forró para espantar o frio!",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-05-16 at 20.52.41.mp4",
+      "legenda": "Preparação para apresentação baile de máscaras no Brilhante",
+      "categoria": "apresentacoes",
+      "video": true,
+      "capa": false
+    },
+    {
+      "legenda": "momentos especias na escola",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-14 at 15.15.39 (1).mp4",
+      "legenda": "Alunos, escola, amigos! :-)",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-14 at 23.36.25 (1) (1).mp4",
+      "legenda": "Olha a dica do forró :-)",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-27 at 12.48.12.jpeg",
+      "legenda": "Inimigos do fim!!!! Arraia interno na escola, muita alegria, diversão e amizade.",
+      "categoria": "praticas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-27 at 12.51.28-1.mp4",
+      "legenda": "Arraia interno na escola, muita alegria, diversão e amizade.",
+      "categoria": "praticas",
+      "video": true,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-27 at 12.50.28-2.mp4",
+      "legenda": "Arraia interno na escola, muita alegria, diversão e amizade.",
+      "categoria": "praticas",
+      "video": true,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-27 at 12.48.14 (1).jpeg",
+      "legenda": "Povo gente boa!",
+      "categoria": "praticas",
+      "video": false,
+      "capa": true
+    }
+  ]
+}{
+  "itens": [
+    {
+      "imagem": "/uploads/IMG_2961.jpg",
+      "legenda": "Aulões de inauguação",
+      "categoria": "destaque",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/IMG_3315.jpg",
+      "legenda": "Turma de terça",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/57fced0a-206e-403c-bbbb-b28d79d3a195.jpg",
+      "legenda": "Com nossos alunos Paulo e Maria",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/363d7798-91c7-4d59-9f79-072156995a66-1.jpg",
+      "legenda": "Com nossos alunos Joares e Leticia",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/35981e58-565b-405d-b1fd-1637cf48b4fc.jpg",
+      "legenda": "Evento Ritmos a dois de 2025 com Douglas e Karol.",
+      "categoria": "eventos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/IMG_3358.jpeg",
+      "legenda": "Aula de samba no pé com Pablo Santos de SP",
+      "categoria": "eventos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.28.04.jpeg",
+      "legenda": "Aula de quarta",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.27.08-1.jpeg",
+      "legenda": "Aula de terça as 20h30",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.26.06.jpeg",
+      "legenda": "Aula de Terça as 20h30",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.34.41-1.jpeg",
+      "legenda": "Turma de quinta as 19h15",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.32.33.jpeg",
+      "legenda": "Turma de quarta 18h15",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.31.35.jpeg",
+      "legenda": "Turma de quarta 19h15",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.30.42.jpeg",
+      "legenda": "Bailinho das meias coloridas!",
+      "categoria": "eventos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.29.21.jpeg",
+      "legenda": "Turma de Quarta 20h30min",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.26.06 (3).jpeg",
+      "legenda": "Terça 20h30min",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 01.23.12 (3).jpeg",
+      "legenda": "Turma de segunda as 19h15",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 13.08.20.jpeg",
+      "legenda": "Turma de segunda, aula temática de Carnaval.",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-14 at 13.12.31.jpeg",
+      "legenda": "Turma de terça 19h15min Aula de forró para espantar o frio!",
+      "categoria": "aulas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-05-16 at 20.52.41.mp4",
+      "legenda": "Preparação para apresentação baile de máscaras no Brilhante",
+      "categoria": "apresentacoes",
+      "video": true,
+      "capa": false
+    },
+    {
+      "legenda": "momentos especias na escola",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-14 at 15.15.39 (1).mp4",
+      "legenda": "Alunos, escola, amigos! :-)",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-14 at 23.36.25 (1) (1).mp4",
+      "legenda": "Olha a dica do forró :-)",
+      "categoria": "alunos",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-27 at 12.48.12.jpeg",
+      "legenda": "Inimigos do fim!!!! Arraia interno na escola, muita alegria, diversão e amizade.",
+      "categoria": "praticas",
+      "video": false,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-27 at 12.51.28-1.mp4",
+      "legenda": "Arraia interno na escola, muita alegria, diversão e amizade.",
+      "categoria": "praticas",
+      "video": true,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Video 2026-06-27 at 12.50.28-2.mp4",
+      "legenda": "Arraia interno na escola, muita alegria, diversão e amizade.",
+      "categoria": "praticas",
+      "video": true,
+      "capa": false
+    },
+    {
+      "imagem": "/uploads/WhatsApp Image 2026-06-27 at 12.48.14 (1).jpeg",
+      "legenda": "Povo gente boa!",
+      "categoria": "praticas",
+      "video": false,
+      "capa": true
     },
     {
       "imagem": "/uploads/WhatsApp Video 2026-06-27 at 13.43.38.mp4",
