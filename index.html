@@ -661,11 +661,18 @@ function initGallery(){
 function buildFolders(){
   const box=$('galFolders');
   if(ALBUMS.length){
-    box.innerHTML=ALBUMS.slice(0,8).map(a=>{
-      const cover=a.capa||((a.media[0]||{}).url)||'';
-      const coverTag=isVid(cover)?'<video src="'+cover+'" muted playsinline preload="metadata"></video><span class="vidbadge"></span>':'<img src="'+cover+'" alt="'+esc(a.titulo)+'" loading="lazy">';
-      return '<a class="folder" href="galeria.html?album='+encodeURIComponent(a.id)+'"><div class="folder-img">'+coverTag+'</div><div class="folder-info"><span class="folder-name">'+esc(a.titulo)+'</span><span class="folder-count">'+(CATS[a.categoria]||a.categoria)+' · '+a.media.length+(a.media.length>1?' itens':' item')+'</span></div></a>';
-    }).join('')+(ALBUMS.length>8?'<a class="folder" href="galeria.html" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--wine-dark),var(--wine));color:#fff;font-family:\'Playfair Display\',Georgia,serif;font-weight:700;font-size:1.1rem;min-height:120px">Ver todas as pastas →</a>':'');
+    // 1 pasta por categoria; dentro dela ficam as subpastas (lotes)
+    const groups={};
+    ALBUMS.forEach(a=>{const c=a.categoria||'eventos';(groups[c]=groups[c]||[]).push(a);});
+    let order=CATORDER.filter(c=>groups[c]);
+    Object.keys(groups).forEach(c=>{if(!order.includes(c))order.push(c);});
+    box.innerHTML=order.map(c=>{
+      const albs=groups[c];
+      const total=albs.reduce((s,a)=>s+a.media.length,0);
+      const cover=albs[0].capa||((albs[0].media[0]||{}).url)||'';
+      const coverTag=isVid(cover)?'<video src="'+cover+'" muted playsinline preload="metadata"></video><span class="vidbadge"></span>':'<img src="'+cover+'" alt="'+esc(CATS[c]||c)+'" loading="lazy">';
+      return '<a class="folder" href="galeria.html?cat='+encodeURIComponent(c)+'"><div class="folder-img">'+coverTag+'</div><div class="folder-info"><span class="folder-name">'+esc(CATS[c]||c)+'</span><span class="folder-count">'+total+(total>1?' itens':' item')+(albs.length>1?' · '+albs.length+' pastas':'')+'</span></div></a>';
+    }).join('');
     return;
   }
   // fallback (acervo antigo por categoria)

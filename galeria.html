@@ -136,34 +136,47 @@ function coverTag(a){
   const isV=/\.(mp4|webm|ogg|m4v|mov)$/i.test(cov);
   return isV?'<video src="'+cov+'" muted playsinline preload="metadata"></video><span class="vidbadge"></span>':'<img src="'+cov+'" alt="'+esc(a.titulo)+'" loading="lazy">';
 }
-function showAlbums(cat){
-  const list=ALBUMS.filter(a=>a.media.length&&(!cat||a.categoria===cat));
-  $('pageTitle').textContent=cat?(CATS[cat]||cat):'Galeria';
-  $('pageSub').textContent=list.length?list.length+(list.length>1?' pastas':' pasta'):'';
+const CATORDER=['destaque','alunos','eventos','aulas','praticas','apresentacoes','coreografias','festivais'];
+function showCategories(){
+  // nível 1: uma pasta por categoria
+  const groups={};
+  ALBUMS.filter(a=>a.media.length).forEach(a=>{const c=a.categoria||'eventos';(groups[c]=groups[c]||[]).push(a);});
+  let order=CATORDER.filter(c=>groups[c]);
+  Object.keys(groups).forEach(c=>{if(!order.includes(c))order.push(c);});
+  $('pageTitle').textContent='Galeria';
+  $('pageSub').textContent=order.length?order.length+(order.length>1?' categorias':' categoria'):'';
   $('backBtn').textContent='← Voltar ao site';$('backBtn').href='index.html#galeria';
-  document.title=($('pageTitle').textContent)+' — Elenice & Marcelo Dança de Salão';
-  renderChips(cat);
-  if(!list.length){$('content').innerHTML='<div class="empty">Ainda não há pastas aqui.</div>';return;}
+  $('chips').style.display='none';
+  document.title='Galeria — Elenice & Marcelo Dança de Salão';
+  if(!order.length){$('content').innerHTML='<div class="empty">Ainda não há fotos e vídeos.</div>';return;}
+  $('content').innerHTML='<div class="albums">'+order.map(c=>{
+    const albs=groups[c]; const total=albs.reduce((s,a)=>s+a.media.length,0);
+    const first=albs[0]; const cover={capa:first.capa,media:first.media,titulo:CATS[c]||c};
+    return '<a class="folder" href="galeria.html?cat='+encodeURIComponent(c)+'"><div class="folder-img">'+coverTag(cover)+'</div><div class="folder-info"><span class="folder-name">'+esc(CATS[c]||c)+'</span><span class="folder-count">'+total+(total>1?' itens':' item')+(albs.length>1?' · '+albs.length+' pastas':'')+'</span></div></a>';
+  }).join('')+'</div>';
+}
+function showAlbums(cat){
+  // nível 2: subpastas (lotes) da categoria
+  const list=ALBUMS.filter(a=>a.media.length&&a.categoria===cat);
+  if(!list.length){showCategories();return;}
+  if(list.length===1){showAlbum(list[0].id,cat);return;} // só uma pasta → abre direto
+  $('pageTitle').textContent=CATS[cat]||cat;
+  $('pageSub').textContent=list.length+' pastas';
+  $('backBtn').textContent='← Categorias';$('backBtn').href='galeria.html';
+  $('chips').style.display='none';
+  document.title=(CATS[cat]||cat)+' — Elenice & Marcelo Dança de Salão';
   $('content').innerHTML='<div class="albums">'+list.map(a=>
     '<a class="folder" href="galeria.html?album='+encodeURIComponent(a.id)+'"><div class="folder-img">'+coverTag(a)+'</div><div class="folder-info"><span class="folder-name">'+esc(a.titulo)+'</span><span class="folder-count">'+a.media.length+(a.media.length>1?' itens':' item')+'</span></div></a>'
   ).join('')+'</div>';
 }
-function renderChips(active){
-  const cats=[...new Set(ALBUMS.filter(a=>a.media.length).map(a=>a.categoria))];
-  if(cats.length<2){$('chips').style.display='none';return;}
-  $('chips').style.display='flex';
-  $('chips').innerHTML='<button class="chip'+(active?'':' active')+'" data-c="">Todas</button>'+
-    cats.map(c=>'<button class="chip'+(active===c?' active':'')+'" data-c="'+c+'">'+esc(CATS[c]||c)+'</button>').join('');
-  $('chips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
-    const c=b.dataset.c;history.replaceState(null,'',c?'galeria.html?cat='+c:'galeria.html');showAlbums(c||null);
-  });
-}
-function showAlbum(id){
+function showAlbum(id,fromCat){
   const a=ALBUMS.find(x=>x.id===id);
-  if(!a){showAlbums(null);return;}
+  if(!a){showCategories();return;}
+  const siblings=ALBUMS.filter(x=>x.media.length&&x.categoria===a.categoria).length;
   $('pageTitle').textContent=a.titulo;
   $('pageSub').textContent=(CATS[a.categoria]||a.categoria)+' · '+a.media.length+(a.media.length>1?' itens':' item');
-  $('backBtn').textContent='← Todas as pastas';$('backBtn').href='galeria.html';
+  if(fromCat||siblings<=1){$('backBtn').textContent='← Categorias';$('backBtn').href='galeria.html';}
+  else{$('backBtn').textContent='← '+(CATS[a.categoria]||a.categoria);$('backBtn').href='galeria.html?cat='+encodeURIComponent(a.categoria);}
   $('chips').style.display='none';
   document.title=a.titulo+' — Elenice & Marcelo Dança de Salão';
   const items=a.media.map(m=>({...m,legenda:m.legenda||a.titulo}));
@@ -181,7 +194,8 @@ async function load(){
   ALBUMS=(data.albums||[]).slice().reverse(); // mais novos primeiro
   const p=new URLSearchParams(location.search);
   if(p.get('album'))showAlbum(p.get('album'));
-  else showAlbums(p.get('cat')||null);
+  else if(p.get('cat'))showAlbums(p.get('cat'));
+  else showCategories();
 }
 load();
 </script>
