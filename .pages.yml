@@ -20,6 +20,7 @@ content:
         fields:
           - name: imagem
             label: "Foto ou vídeo (.mp4)"
+            description: "⚠️ Vídeo: no máximo 25 MB (ideal até 15 MB). Vídeos maiores NÃO aparecem no site — comprima antes de subir, ou prefira vídeos curtos. Foto pode subir normal."
             type: file
           - name: legenda
             label: Legenda
