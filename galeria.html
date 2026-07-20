@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Galeria — Elenice & Marcelo Dança de Salão</title>
-<meta name="description" content="Fotos das turmas, eventos e apresentações da escola de dança de salão Elenice & Marcelo, em Pelotas/RS.">
+<meta name="description" content="Fotos e vídeos das turmas, eventos e apresentações da escola de dança de salão Elenice & Marcelo, em Pelotas/RS.">
 <link id="favicon" rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,29 +20,44 @@
   .brand{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.32rem;color:var(--wine);display:flex;align-items:center;gap:.7rem}
   .brand span{color:var(--gold)}
   .brand img{height:52px;width:52px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--gold)}
-  .back{font-weight:600;color:var(--wine);font-size:.92rem;padding:.5rem 1.1rem;border:1.5px solid var(--cream-2);border-radius:999px;transition:.2s}
+  .back{font-weight:600;color:var(--wine);font-size:.92rem;padding:.5rem 1.1rem;border:1.5px solid var(--cream-2);border-radius:999px;transition:.2s;white-space:nowrap}
   .back:hover{background:var(--wine);color:#fff;border-color:var(--wine)}
-  .hero{background:linear-gradient(135deg,var(--wine-dark),var(--wine) 60%,#7e2535);color:#fff;padding:52px 0 44px;text-align:center}
+  .hero{background:linear-gradient(135deg,var(--wine-dark),var(--wine) 60%,#7e2535);color:#fff;padding:46px 0 40px;text-align:center}
   .eyebrow{letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;font-weight:700;color:var(--gold-soft)}
-  .hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2rem,5vw,3rem);margin:.4rem 0}
+  .hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.8rem,5vw,2.8rem);margin:.4rem 0}
   .hero p{color:rgba(255,255,255,.85);font-size:.95rem}
-  main{flex:1;padding:44px 0 64px}
+  main{flex:1;padding:36px 0 64px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}
+  .chip{padding:.45rem 1rem;border-radius:999px;border:1.5px solid var(--cream-2);background:#fff;font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
+  .chip.active,.chip:hover{background:var(--wine);color:#fff;border-color:var(--wine)}
+  .albums{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .folder{display:block;border-radius:14px;overflow:hidden;background:#3a0f1a;box-shadow:var(--shadow);transition:.25s;position:relative;cursor:pointer}
+  .folder:hover{transform:translateY(-5px)}
+  .folder-img{aspect-ratio:4/3;overflow:hidden;position:relative}
+  .folder-img img,.folder-img video{width:100%;height:100%;object-fit:cover;transition:.4s;display:block}
+  .folder:hover .folder-img img,.folder:hover .folder-img video{transform:scale(1.07)}
+  .folder-info{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 13px;background:linear-gradient(transparent,rgba(40,8,16,.55) 40%,rgba(40,8,16,.92));color:#fff}
+  .folder-name{display:block;font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;line-height:1.25}
+  .folder-count{font-size:.75rem;color:var(--gold-soft);letter-spacing:.04em}
+  .vidbadge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+  .vidbadge::after{content:'▶';color:#fff;font-size:1.1rem;width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding-left:3px}
   .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
   .ph-item{aspect-ratio:1;border-radius:12px;overflow:hidden;cursor:zoom-in;position:relative;box-shadow:var(--shadow);transition:.2s;background:#3a0f1a}
   .ph-item:hover{transform:scale(1.04)}
   .ph-item img,.ph-item video{width:100%;height:100%;object-fit:cover;display:block}
-  .ph-item .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-  .ph-item .play span{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;color:#fff}
+  .ph-item .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+  .ph-item .play span{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;color:#fff;padding-left:3px}
   .empty{text-align:center;color:var(--muted);font-style:italic;padding:50px 10px}
   footer{background:var(--wine-dark);color:rgba(255,255,255,.8);text-align:center;padding:30px 0;font-size:.85rem}
   footer .gold{color:var(--gold-soft)}
   .lightbox{position:fixed;inset:0;z-index:100;background:rgba(20,6,11,.94);display:none;align-items:center;justify-content:center;padding:20px}
   .lightbox.open{display:flex}
-  .lb-content{max-width:92vw;max-height:86vh}
-  .lb-content img,.lb-content video{max-width:92vw;max-height:86vh;border-radius:12px;box-shadow:0 30px 80px -20px #000;display:block;background:#000}
-  .lb-close{position:absolute;top:18px;right:24px;background:none;border:0;color:#fff;font-size:2.4rem;cursor:pointer;line-height:1}
-  .lb-cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#fff;font-weight:600}
-  @media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .lb-content img,.lb-content video{max-width:92vw;max-height:82vh;border-radius:12px;box-shadow:0 30px 80px -20px #000;display:block;background:#000}
+  .lb-close{position:absolute;top:18px;right:24px;background:none;border:0;color:#fff;font-size:2.4rem;cursor:pointer;line-height:1;z-index:2}
+  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.14);border:0;color:#fff;font-size:1.6rem;width:46px;height:46px;border-radius:50%;cursor:pointer;z-index:2}
+  .lb-prev{left:14px}.lb-next{right:14px}
+  .lb-cap{position:absolute;bottom:20px;left:0;right:0;text-align:center;color:#fff;font-weight:600;padding:0 60px}
+  @media(max-width:900px){.albums{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:560px){.grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -50,21 +65,22 @@
 <header>
   <nav>
     <a href="index.html" class="brand" id="brand">Elenice <span>&amp;</span> Marcelo</a>
-    <a href="index.html#galeria" class="back">← Voltar à galeria</a>
+    <a href="#" class="back" id="backBtn">← Voltar</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="wrap">
     <div class="eyebrow">O salão em movimento</div>
-    <h1 id="catTitle">Galeria</h1>
-    <p id="catCount"></p>
+    <h1 id="pageTitle">Galeria</h1>
+    <p id="pageSub"></p>
   </div>
 </section>
 
 <main>
   <div class="wrap">
-    <div class="grid" id="grid"><div class="empty">Carregando fotos…</div></div>
+    <div class="chips" id="chips" style="display:none"></div>
+    <div id="content"><div class="empty">Carregando…</div></div>
   </div>
 </main>
 
@@ -74,44 +90,98 @@
 
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lbClose" aria-label="Fechar">×</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">‹</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Próxima">›</button>
   <div class="lb-content" id="lbContent"></div>
   <div class="lb-cap" id="lbCap"></div>
 </div>
 
 <script>
 const CATS={destaque:'Destaque',alunos:'Alunos',eventos:'Eventos',aulas:'Aulas',praticas:'Práticas',apresentacoes:'Apresentações',coreografias:'Coreografias',festivais:'Festivais'};
-const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-const isVid=s=>/\.(mp4|webm|ogg|m4v|mov)$/i.test(s||'');
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const $=id=>document.getElementById(id);
-async function getJSON(p,f){try{const r=await fetch(p,{cache:'no-cache'});return await r.json();}catch(e){return f;}}
+let ALBUMS=[], CURRENT=[], LBIDX=0;
+
+async function getJSON(p,f){try{const r=await fetch(p,{cache:'no-cache'});if(!r.ok)throw 0;return await r.json();}catch(e){return f;}}
+
+/* ------- lightbox com navegação ------- */
 const lb=$('lightbox'),lbContent=$('lbContent'),lbCap=$('lbCap');
-function openImg(src,cap){lbContent.innerHTML=isVid(src)?'<video src="'+src+'" controls autoplay playsinline></video>':'<img src="'+src+'" alt="'+(cap||'')+'">';lbCap.textContent=cap||'';lb.classList.add('open');document.body.style.overflow='hidden';}
+function openLB(items,i){CURRENT=items;LBIDX=i;renderLB();lb.classList.add('open');document.body.style.overflow='hidden';}
+function renderLB(){
+  const m=CURRENT[LBIDX];if(!m)return;
+  lbContent.innerHTML=m.video?'<video src="'+m.url+'" controls autoplay playsinline></video>':'<img src="'+m.url+'" alt="">';
+  lbCap.textContent=m.legenda||'';
+  $('lbPrev').style.display=$('lbNext').style.display=CURRENT.length>1?'block':'none';
+}
 function closeLB(){lb.classList.remove('open');lbContent.innerHTML='';document.body.style.overflow='';}
 $('lbClose').onclick=closeLB;
+$('lbPrev').onclick=e=>{e.stopPropagation();LBIDX=(LBIDX-1+CURRENT.length)%CURRENT.length;renderLB();};
+$('lbNext').onclick=e=>{e.stopPropagation();LBIDX=(LBIDX+1)%CURRENT.length;renderLB();};
 lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.classList.contains('open'))closeLB();});
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();
+  if(e.key==='ArrowLeft')$('lbPrev').click();
+  if(e.key==='ArrowRight')$('lbNext').click();
+});
+
+/* ------- telas ------- */
+function mediaTag(m,lazy){
+  return m.video
+    ? '<video src="'+m.url+'" muted playsinline preload="metadata"></video><div class="play"><span>▶</span></div>'
+    : '<img src="'+m.url+'" alt="'+esc(m.legenda)+'"'+(lazy?' loading="lazy"':'')+'>';
+}
+function coverTag(a){
+  const cov=a.capa||((a.media[0]||{}).url)||'';
+  const isV=/\.(mp4|webm|ogg|m4v|mov)$/i.test(cov);
+  return isV?'<video src="'+cov+'" muted playsinline preload="metadata"></video><span class="vidbadge"></span>':'<img src="'+cov+'" alt="'+esc(a.titulo)+'" loading="lazy">';
+}
+function showAlbums(cat){
+  const list=ALBUMS.filter(a=>a.media.length&&(!cat||a.categoria===cat));
+  $('pageTitle').textContent=cat?(CATS[cat]||cat):'Galeria';
+  $('pageSub').textContent=list.length?list.length+(list.length>1?' pastas':' pasta'):'';
+  $('backBtn').textContent='← Voltar ao site';$('backBtn').href='index.html#galeria';
+  document.title=($('pageTitle').textContent)+' — Elenice & Marcelo Dança de Salão';
+  renderChips(cat);
+  if(!list.length){$('content').innerHTML='<div class="empty">Ainda não há pastas aqui.</div>';return;}
+  $('content').innerHTML='<div class="albums">'+list.map(a=>
+    '<a class="folder" href="galeria.html?album='+encodeURIComponent(a.id)+'"><div class="folder-img">'+coverTag(a)+'</div><div class="folder-info"><span class="folder-name">'+esc(a.titulo)+'</span><span class="folder-count">'+a.media.length+(a.media.length>1?' itens':' item')+'</span></div></a>'
+  ).join('')+'</div>';
+}
+function renderChips(active){
+  const cats=[...new Set(ALBUMS.filter(a=>a.media.length).map(a=>a.categoria))];
+  if(cats.length<2){$('chips').style.display='none';return;}
+  $('chips').style.display='flex';
+  $('chips').innerHTML='<button class="chip'+(active?'':' active')+'" data-c="">Todas</button>'+
+    cats.map(c=>'<button class="chip'+(active===c?' active':'')+'" data-c="'+c+'">'+esc(CATS[c]||c)+'</button>').join('');
+  $('chips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    const c=b.dataset.c;history.replaceState(null,'',c?'galeria.html?cat='+c:'galeria.html');showAlbums(c||null);
+  });
+}
+function showAlbum(id){
+  const a=ALBUMS.find(x=>x.id===id);
+  if(!a){showAlbums(null);return;}
+  $('pageTitle').textContent=a.titulo;
+  $('pageSub').textContent=(CATS[a.categoria]||a.categoria)+' · '+a.media.length+(a.media.length>1?' itens':' item');
+  $('backBtn').textContent='← Todas as pastas';$('backBtn').href='galeria.html';
+  $('chips').style.display='none';
+  document.title=a.titulo+' — Elenice & Marcelo Dança de Salão';
+  const items=a.media.map(m=>({...m,legenda:m.legenda||a.titulo}));
+  $('content').innerHTML='<div class="grid">'+items.map((m,i)=>'<div class="ph-item" data-i="'+i+'">'+mediaTag(m,true)+'</div>').join('')+'</div>';
+  $('content').querySelectorAll('.ph-item').forEach(el=>el.onclick=()=>openLB(items,parseInt(el.dataset.i,10)));
+}
 
 async function load(){
-  const cat=new URLSearchParams(location.search).get('cat')||'';
-  const label=CATS[cat]||cat||'Galeria';
-  $('catTitle').textContent=label;
-  document.title=label+' — Elenice & Marcelo Dança de Salão';
   const info=await getJSON('content/info.json',{});
   if(info.logo){
     $('brand').innerHTML='<img src="'+info.logo+'" alt="Elenice & Marcelo"><span style="font-family:\'Playfair Display\',Georgia,serif;color:var(--wine)">Elenice <em style="color:var(--gold);font-style:normal">&amp;</em> Marcelo</span>';
     $('favicon').href=info.logo;
   }
-  const g=await getJSON('content/gallery.json',{itens:[]});
-  const itens=((g&&g.itens)||[]).filter(i=>i.imagem&&(''+i.imagem).trim()&&(!cat||i.categoria===cat)).reverse();
-  const grid=$('grid');
-  $('catCount').textContent=itens.length?(itens.length+(itens.length>1?' itens':' item')):'';
-  if(!itens.length){grid.innerHTML='<div class="empty">Ainda não há itens nesta categoria.</div>';return;}
-  grid.innerHTML=itens.map(it=>{
-    const v=isVid(it.imagem);
-    const media=v?'<video src="'+it.imagem+'" muted playsinline preload="metadata"></video>':'<img src="'+it.imagem+'" alt="'+esc(it.legenda)+'" loading="lazy">';
-    return '<div class="ph-item" data-img="'+it.imagem+'" data-cap="'+esc(it.legenda)+'">'+media+((v||it.video)?'<div class="play"><span>▶</span></div>':'')+'</div>';
-  }).join('');
-  grid.querySelectorAll('.ph-item').forEach(el=>el.onclick=()=>openImg(el.dataset.img,el.dataset.cap));
+  const data=await getJSON('/api/galeria',{albums:[]});
+  ALBUMS=(data.albums||[]).slice().reverse(); // mais novos primeiro
+  const p=new URLSearchParams(location.search);
+  if(p.get('album'))showAlbum(p.get('album'));
+  else showAlbums(p.get('cat')||null);
 }
 load();
 </script>
