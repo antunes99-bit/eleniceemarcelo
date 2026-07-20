@@ -43,6 +43,23 @@
   .hint{font-size:.78rem;color:var(--muted);margin-top:6px}
   .back{display:block;text-align:center;margin-top:20px;color:var(--wine);font-weight:600;text-decoration:none}
   .logo{display:block;margin:0 auto;height:64px;width:64px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px var(--gold)}
+  .alb{border:1px solid var(--cream-2);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  .alb-head{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;background:var(--cream)}
+  .alb-head img,.alb-head .vth{width:46px;height:46px;border-radius:8px;object-fit:cover;background:#3a0f1a;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}
+  .alb-head .t{flex:1;min-width:0}
+  .alb-head .t b{display:block;font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .alb-head .t small{color:var(--muted);font-size:.75rem}
+  .alb-actions{display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px;border-top:1px solid var(--cream-2)}
+  .alb-actions button{font:inherit;font-size:.76rem;font-weight:700;border:0;border-radius:999px;padding:.45rem .8rem;cursor:pointer;background:var(--cream-2);color:var(--wine)}
+  .alb-actions button:hover{background:var(--gold-soft)}
+  .alb-actions .del{background:#ffebee;color:var(--err)}
+  .alb-actions .del:hover{background:#ffcdd2}
+  .alb-items{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 12px;border-top:1px solid var(--cream-2)}
+  .alb-item{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#3a0f1a}
+  .alb-item img,.alb-item video{width:100%;height:100%;object-fit:cover;display:block}
+  .alb-item .rmv{position:absolute;top:4px;right:4px;background:rgba(198,40,40,.92);color:#fff;border:0;border-radius:50%;width:22px;height:22px;font-size:.85rem;cursor:pointer;line-height:1}
+  .alb-item .mkc{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.55);color:#fff;border:0;border-radius:999px;padding:2px 8px;font-size:.62rem;cursor:pointer}
+  .alb-item.capa .mkc{background:var(--gold);color:#3a0f1a;font-weight:700}
 </style>
 </head>
 <body>
@@ -81,6 +98,12 @@
     <div class="bar" id="bar"><i id="barFill"></i></div>
     <button class="btn" id="send" disabled>Publicar lote</button>
     <div class="msg" id="msg"></div>
+  </div>
+
+  <div class="card" id="manageCard">
+    <label style="margin-top:0">Gerenciar pastas publicadas</label>
+    <p class="hint" style="margin-top:0">Renomeie, troque a capa, apague itens ou a pasta inteira. As mudanças aparecem no site em até 1 minuto.</p>
+    <div id="albumList" style="margin-top:12px"><span class="hint">Carregando pastas…</span></div>
   </div>
 
   <a class="back" href="/">← Voltar ao site</a>
@@ -189,7 +212,81 @@ $('send').onclick=async()=>{
   }
   $('send').disabled=FILES.length===0;
   setTimeout(()=>{$('bar').style.display='none';setBar(0);},1500);
+  loadAlbums();
 };
+
+/* ===== Gerenciar pastas ===== */
+const CATLBL={destaque:'Destaque',alunos:'Alunos',eventos:'Eventos',aulas:'Aulas',praticas:'Práticas',apresentacoes:'Apresentações',coreografias:'Coreografias',festivais:'Festivais'};
+const chaveAtual=()=>$('chave').value.trim();
+async function api(modo,fields){
+  const chave=chaveAtual();
+  if(!chave){alert('Digite a senha de publicação no topo da página primeiro.');return null;}
+  const fd=new FormData();fd.set('chave',chave);Object.entries(fields).forEach(([k,v])=>fd.set(k,v));
+  const r=await fetch('/api/publicar?modo='+modo,{method:'POST',body:fd});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok){alert(j.error||'Erro ('+r.status+')');return null;}
+  localStorage.setItem('pubkey',chave);
+  return j;
+}
+async function loadAlbums(){
+  const box=$('albumList');
+  try{
+    const r=await fetch('/api/galeria?cb='+Date.now(),{cache:'no-store'});
+    const data=await r.json();
+    const albums=(data.albums||[]).slice().reverse();
+    if(!albums.length){box.innerHTML='<span class="hint">Nenhuma pasta ainda.</span>';return;}
+    box.innerHTML='';
+    albums.forEach(a=>box.appendChild(albumRow(a)));
+  }catch(e){box.innerHTML='<span class="hint">Não foi possível carregar as pastas.</span>';}
+}
+function albumRow(a){
+  const div=document.createElement('div');div.className='alb';
+  const cover=a.capa||((a.media[0]||{}).url)||'';
+  const isV=/\.(mp4|webm|ogg|m4v|mov)$/i.test(cover);
+  const head=document.createElement('div');head.className='alb-head';
+  head.innerHTML=(isV?'<div class="vth">🎬</div>':'<img src="'+cover+'" alt="">')+
+    '<div class="t"><b></b><small>'+(CATLBL[a.categoria]||a.categoria)+' · '+a.media.length+(a.media.length>1?' itens':' item')+'</small></div><span>▾</span>';
+  head.querySelector('b').textContent=a.titulo;
+  const body=document.createElement('div');body.style.display='none';
+  const actions=document.createElement('div');actions.className='alb-actions';
+  const bRen=btn('✏️ Renomear',async()=>{
+    const novo=prompt('Novo nome da pasta:',a.titulo);
+    if(novo&&novo.trim()&&novo.trim()!==a.titulo){if(await api('editar',{albumId:a.id,titulo:novo.trim()}))loadAlbums();}
+  });
+  const bCat=btn('🏷️ Categoria',async()=>{
+    const ops=Object.entries(CATLBL).map(([k,v],i)=>(i+1)+'. '+v).join('\n');
+    const n=prompt('Escolha o número da categoria:\n'+ops);
+    const keys=Object.keys(CATLBL); const k=keys[parseInt(n,10)-1];
+    if(k){if(await api('editar',{albumId:a.id,categoria:k}))loadAlbums();}
+  });
+  const bDel=btn('🗑️ Excluir pasta',async()=>{
+    if(!confirm('Excluir a pasta "'+a.titulo+'" com '+a.media.length+' item(ns)? Não dá pra desfazer.'))return;
+    const chave=chaveAtual();
+    if(!chave){alert('Digite a senha primeiro.');return;}
+    const r=await fetch('/api/publicar?album='+encodeURIComponent(a.id)+'&chave='+encodeURIComponent(chave),{method:'DELETE'});
+    if(r.ok)loadAlbums(); else alert('Erro ao excluir (senha correta?).');
+  });bDel.className='del';
+  actions.append(bRen,bCat,bDel);
+  const grid=document.createElement('div');grid.className='alb-items';
+  a.media.forEach(m=>{
+    const it=document.createElement('div');it.className='alb-item'+(m.url===a.capa?' capa':'');
+    it.innerHTML=(m.video?'<video src="'+m.url+'" muted playsinline preload="metadata"></video>':'<img src="'+m.url+'" loading="lazy" alt="">')+
+      '<button class="rmv" title="Apagar este item">×</button>'+(m.video?'':'<button class="mkc">'+(m.url===a.capa?'★ capa':'capa')+'</button>');
+    it.querySelector('.rmv').onclick=async()=>{
+      if(!confirm('Apagar este item da pasta?'))return;
+      if(await api('removerItem',{albumId:a.id,url:m.url}))loadAlbums();
+    };
+    const mk=it.querySelector('.mkc');
+    if(mk)mk.onclick=async()=>{if(await api('editar',{albumId:a.id,capa:m.url}))loadAlbums();};
+    grid.appendChild(it);
+  });
+  body.append(actions,grid);
+  head.onclick=()=>{body.style.display=body.style.display==='none'?'block':'none';};
+  div.append(head,body);
+  return div;
+}
+function btn(txt,fn){const b=document.createElement('button');b.type='button';b.textContent=txt;b.onclick=fn;return b;}
+loadAlbums();
 </script>
 </body>
 </html>
