@@ -180,8 +180,15 @@ function showAlbum(id,fromCat){
   $('chips').style.display='none';
   document.title=a.titulo+' — Elenice & Marcelo Dança de Salão';
   const items=a.media.map(m=>({...m,legenda:m.legenda||a.titulo}));
-  $('content').innerHTML='<div class="grid">'+items.map((m,i)=>'<div class="ph-item" data-i="'+i+'">'+mediaTag(m,true)+'</div>').join('')+'</div>';
+  const shareUrl=location.origin+'/galeria?album='+encodeURIComponent(a.id);
+  const shareMsg='*'+a.titulo+'*\n\nVeja as fotos e vídeos na galeria da Escola Elenice & Marcelo:\n'+shareUrl;
+  $('content').innerHTML='<div style="display:flex;gap:10px;justify-content:center;margin-bottom:22px;flex-wrap:wrap">'
+    +'<a href="https://wa.me/?text='+encodeURIComponent(shareMsg)+'" target="_blank" rel="noopener" style="background:#25d366;color:#fff;font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:999px">📲 Compartilhar no WhatsApp</a>'
+    +'<button id="cpLink" style="background:var(--cream-2);color:var(--wine);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:999px;border:0;cursor:pointer;font-family:inherit">🔗 Copiar link</button>'
+    +'</div><div class="grid">'+items.map((m,i)=>'<div class="ph-item" data-i="'+i+'">'+mediaTag(m,true)+'</div>').join('')+'</div>';
   $('content').querySelectorAll('.ph-item').forEach(el=>el.onclick=()=>openLB(items,parseInt(el.dataset.i,10)));
+  const cp=document.getElementById('cpLink');
+  if(cp)cp.onclick=async()=>{try{await navigator.clipboard.writeText(shareUrl);cp.textContent='✓ Link copiado!';setTimeout(()=>cp.textContent='🔗 Copiar link',1800);}catch(e){prompt('Copie o link:',shareUrl);}};
 }
 
 async function load(){
@@ -191,6 +198,7 @@ async function load(){
     $('favicon').href=info.logo;
   }
   const data=await getJSON('/api/galeria',{albums:[]});
+  Object.assign(CATS,data.categorias||{});
   ALBUMS=(data.albums||[]).slice().reverse(); // mais novos primeiro
   const p=new URLSearchParams(location.search);
   if(p.get('album'))showAlbum(p.get('album'));

@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
   :root{--wine:#6e1d2c;--wine-dark:#511320;--gold:#c79a4b;--gold-soft:#e3c98a;--cream:#faf5ee;--cream-2:#f3e9db;--ink:#2a1c1f;--muted:#7a6a63;--ok:#2e7d32;--err:#c62828;--radius:16px}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -70,7 +71,10 @@
 
   <div class="card">
     <label for="chave">Senha de publicação</label>
-    <input type="password" id="chave" placeholder="Digite a senha combinada" autocomplete="current-password">
+    <div style="position:relative">
+      <input type="password" id="chave" placeholder="Digite a senha combinada" autocomplete="current-password" style="padding-right:3rem">
+      <button type="button" id="eye" aria-label="Mostrar senha" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;font-size:1.2rem;cursor:pointer;opacity:.7">👁️</button>
+    </div>
     <p class="hint">Fica salva neste aparelho — só precisa digitar na primeira vez.</p>
 
     <label for="titulo">Legenda do lote (vira o nome da pasta)</label>
@@ -86,7 +90,10 @@
       <option value="coreografias">Coreografias</option>
       <option value="festivais">Festivais</option>
       <option value="destaque">Destaque</option>
+      <option value="__nova__">➕ Criar categoria nova…</option>
     </select>
+
+    <div id="tsBox" style="margin-top:16px"><div class="cf-turnstile" data-sitekey="0x4AAAAAAD5--CIZW36VSosx" data-theme="light" data-language="pt-BR"></div></div>
 
     <div class="drop" id="drop">
       <strong>Toque aqui para escolher fotos e vídeos</strong> ou arraste-os para cá
@@ -114,8 +121,23 @@ const $=id=>document.getElementById(id);
 const isVid=f=>/\.(mp4|webm|ogg|m4v|mov)$/i.test(f.name)||f.type.startsWith('video/');
 let FILES=[];
 
-// senha lembrada
+// senha lembrada + olho de mostrar/ocultar
 $('chave').value=localStorage.getItem('pubkey')||'';
+$('eye').onclick=()=>{const c=$('chave');const show=c.type==='password';c.type=show?'text':'password';$('eye').textContent=show?'🙈':'👁️';};
+
+// categoria nova
+let NOVA_CAT=null;
+$('categoria').addEventListener('change',()=>{
+  if($('categoria').value!=='__nova__')return;
+  const nome=prompt('Nome da nova categoria (ex.: Bailes, Workshops):');
+  if(nome&&nome.trim()){
+    NOVA_CAT=nome.trim().slice(0,40);
+    const slug=NOVA_CAT.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+    const opt=document.createElement('option');opt.value=slug;opt.textContent=NOVA_CAT+' (nova)';opt.dataset.nova=NOVA_CAT;
+    $('categoria').insertBefore(opt,$('categoria').lastElementChild);
+    $('categoria').value=slug;
+  }else{$('categoria').value='praticas';}
+});
 // logo
 fetch('/content/info.json').then(r=>r.json()).then(i=>{if(i.logo){$('logo').src=i.logo;$('logo').style.display='block';}}).catch(()=>{});
 
@@ -182,7 +204,11 @@ $('send').onclick=async()=>{
   try{
     // 1) cria o álbum
     const fd=new FormData();fd.set('chave',chave);fd.set('titulo',titulo);fd.set('categoria',categoria);
+    const optSel=$('categoria').selectedOptions[0];
+    if(optSel&&optSel.dataset.nova)fd.set('categoriaNova',optSel.dataset.nova);
+    if(window.turnstile){const tk=turnstile.getResponse();if(tk)fd.set('ts',tk);}
     const r1=await fetch('/api/publicar',{method:'POST',body:fd});
+    if(window.turnstile)try{turnstile.reset();}catch(e){}
     const j1=await r1.json();
     if(!r1.ok){showMsg(j1.error||'Erro ao criar a pasta.','err');$('send').disabled=false;return;}
     const albumId=j1.albumId;
@@ -233,6 +259,14 @@ async function loadAlbums(){
   try{
     const r=await fetch('/api/galeria?cb='+Date.now(),{cache:'no-store'});
     const data=await r.json();
+    // categorias personalizadas entram no seletor e nos rótulos
+    Object.assign(CATLBL,data.categorias||{});
+    Object.entries(data.categorias||{}).forEach(([k,v])=>{
+      if(![...$('categoria').options].some(o=>o.value===k)){
+        const opt=document.createElement('option');opt.value=k;opt.textContent=v;
+        $('categoria').insertBefore(opt,$('categoria').lastElementChild);
+      }
+    });
     const albums=(data.albums||[]).slice().reverse();
     if(!albums.length){box.innerHTML='<span class="hint">Nenhuma pasta ainda.</span>';return;}
     box.innerHTML='';
@@ -259,6 +293,11 @@ function albumRow(a){
     const keys=Object.keys(CATLBL); const k=keys[parseInt(n,10)-1];
     if(k){if(await api('editar',{albumId:a.id,categoria:k}))loadAlbums();}
   });
+  const bShare=btn('📲 Compartilhar',()=>{
+    const url=location.origin+'/galeria?album='+encodeURIComponent(a.id);
+    const msg='*'+a.titulo+'*\n\nVeja as fotos e vídeos na galeria da Escola Elenice & Marcelo:\n'+url;
+    window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener');
+  });
   const bDel=btn('🗑️ Excluir pasta',async()=>{
     if(!confirm('Excluir a pasta "'+a.titulo+'" com '+a.media.length+' item(ns)? Não dá pra desfazer.'))return;
     const chave=chaveAtual();
@@ -266,7 +305,7 @@ function albumRow(a){
     const r=await fetch('/api/publicar?album='+encodeURIComponent(a.id)+'&chave='+encodeURIComponent(chave),{method:'DELETE'});
     if(r.ok)loadAlbums(); else alert('Erro ao excluir (senha correta?).');
   });bDel.className='del';
-  actions.append(bRen,bCat,bDel);
+  actions.append(bShare,bRen,bCat,bDel);
   const grid=document.createElement('div');grid.className='alb-items';
   a.media.forEach(m=>{
     const it=document.createElement('div');it.className='alb-item'+(m.url===a.capa?' capa':'');

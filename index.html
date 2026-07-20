@@ -797,6 +797,7 @@ async function getJSON(path,fallback){ try{const r=await fetch(path,{cache:'no-c
 async function load(){
   const rev=a=>(a||[]).slice().reverse();
   const api=await getJSON('/api/galeria',null);
+  if(api&&api.categorias)Object.assign(CATS,api.categorias);
   if(api&&api.albums&&api.albums.length){
     ALBUMS=rev(api.albums.filter(a=>a.media&&a.media.length));
     ITEMS=ALBUMS.flatMap(a=>a.media.map(m=>({imagem:m.url,legenda:m.legenda||a.titulo,video:!!m.video,categoria:a.categoria}))).slice(0,12);
