@@ -93,7 +93,7 @@
       <option value="__nova__">➕ Criar categoria nova…</option>
     </select>
 
-    <div id="tsBox" style="margin-top:16px"><div class="cf-turnstile" data-sitekey="0x4AAAAAAD5--CIZW36VSosx" data-theme="light" data-language="pt-BR"></div></div>
+    <div id="tsBox" style="margin-top:16px"><div class="cf-turnstile" data-sitekey="0x4AAAAAAD5--CIZW36VSosx" data-theme="light" data-language="pt-BR" data-callback="__tsCb" data-expired-callback="__tsExp"></div></div>
 
     <div class="drop" id="drop">
       <strong>Toque aqui para escolher fotos e vídeos</strong> ou arraste-os para cá
@@ -120,6 +120,24 @@
 const $=id=>document.getElementById(id);
 const isVid=f=>/\.(mp4|webm|ogg|m4v|mov)$/i.test(f.name)||f.type.startsWith('video/');
 let FILES=[];
+
+// Turnstile: garante um token FRESCO na hora de publicar (o token vence em ~5 min)
+window.__tsAt=0;
+window.__tsCb=()=>{window.__tsAt=Date.now();};
+window.__tsExp=()=>{window.__tsAt=0;try{turnstile.reset();}catch(e){}};
+async function freshTs(force){
+  if(!window.turnstile)return null;
+  let tk='';try{tk=turnstile.getResponse()||'';}catch(e){}
+  const idade=Date.now()-(window.__tsAt||0);
+  if(tk&&!force&&idade<230000)return tk; // token com menos de ~4 min: serve
+  try{turnstile.reset();}catch(e){}
+  for(let i=0;i<50;i++){ // espera o novo token (invisível, ~1-3s)
+    await new Promise(r=>setTimeout(r,300));
+    try{tk=turnstile.getResponse()||'';}catch(e){}
+    if(tk){window.__tsAt=Date.now();return tk;}
+  }
+  return null;
+}
 
 // senha lembrada + olho de mostrar/ocultar
 $('chave').value=localStorage.getItem('pubkey')||'';
@@ -202,14 +220,21 @@ $('send').onclick=async()=>{
   $('send').disabled=true;showMsg('Criando a pasta…','ok');setBar(0.02);
 
   try{
-    // 1) cria o álbum
-    const fd=new FormData();fd.set('chave',chave);fd.set('titulo',titulo);fd.set('categoria',categoria);
+    // 1) cria o álbum — com token anti-robô fresco e nova tentativa automática
     const optSel=$('categoria').selectedOptions[0];
-    if(optSel&&optSel.dataset.nova)fd.set('categoriaNova',optSel.dataset.nova);
-    if(window.turnstile){const tk=turnstile.getResponse();if(tk)fd.set('ts',tk);}
-    const r1=await fetch('/api/publicar',{method:'POST',body:fd});
-    if(window.turnstile)try{turnstile.reset();}catch(e){}
-    const j1=await r1.json();
+    const criar=async(force)=>{
+      const fd=new FormData();fd.set('chave',chave);fd.set('titulo',titulo);fd.set('categoria',categoria);
+      if(optSel&&optSel.dataset.nova)fd.set('categoriaNova',optSel.dataset.nova);
+      const tk=await freshTs(force);
+      if(tk)fd.set('ts',tk);
+      const r=await fetch('/api/publicar',{method:'POST',body:fd});
+      return {r,j:await r.json().catch(()=>({}))};
+    };
+    let {r:r1,j:j1}=await criar(false);
+    if(r1.status===403){ // token vencido/usado → renova e tenta de novo sozinho
+      showMsg('Renovando verificação de segurança…','ok');
+      ({r:r1,j:j1}=await criar(true));
+    }
     if(!r1.ok){showMsg(j1.error||'Erro ao criar a pasta.','err');$('send').disabled=false;return;}
     const albumId=j1.albumId;
 
