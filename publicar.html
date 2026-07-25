@@ -322,8 +322,12 @@ function albumRow(a){
     const chave=chaveAtual();
     if(!chave){alert('Digite a senha de publicação no topo da página primeiro.');return;}
     const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='image/*,video/*';
+    // no celular (iOS/Android) o seletor só abre se o input estiver no DOM
+    inp.style.position='fixed';inp.style.left='-9999px';inp.style.opacity='0';
+    document.body.appendChild(inp);
     inp.onchange=async()=>{
-      const files=[...inp.files];if(!files.length)return;
+      const files=[...inp.files];
+      if(!files.length){inp.remove();return;}
       let done=0,fail=0;const lbl=bAdd.textContent;
       for(const f0 of files){
         if(f0.size>200*1024*1024){alert('"'+f0.name+'" passa de 200 MB — pulado.');fail++;continue;}
@@ -338,6 +342,7 @@ function albumRow(a){
       bAdd.textContent=lbl;
       localStorage.setItem('pubkey',chave);
       alert(done+' arquivo(s) adicionado(s) à pasta "'+a.titulo+'"'+(fail?(' — '+fail+' falharam, tente de novo'):'')+'.');
+      inp.remove();
       loadAlbums();
     };
     inp.click();
