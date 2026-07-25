@@ -318,6 +318,30 @@ function albumRow(a){
     const keys=Object.keys(CATLBL); const k=keys[parseInt(n,10)-1];
     if(k){if(await api('editar',{albumId:a.id,categoria:k}))loadAlbums();}
   });
+  const bAdd=btn('➕ Adicionar',()=>{
+    const chave=chaveAtual();
+    if(!chave){alert('Digite a senha de publicação no topo da página primeiro.');return;}
+    const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.accept='image/*,video/*';
+    inp.onchange=async()=>{
+      const files=[...inp.files];if(!files.length)return;
+      let done=0,fail=0;const lbl=bAdd.textContent;
+      for(const f0 of files){
+        if(f0.size>200*1024*1024){alert('"'+f0.name+'" passa de 200 MB — pulado.');fail++;continue;}
+        bAdd.textContent='⏳ Enviando '+(done+fail+1)+'/'+files.length+'…';
+        try{
+          const f=await compressImage(f0);
+          const fd=new FormData();fd.set('chave',chave);fd.set('albumId',a.id);fd.set('file',f,f.name);
+          const r=await fetch('/api/publicar?modo=arquivo',{method:'POST',body:fd});
+          if(!r.ok)throw 0;done++;
+        }catch(e){fail++;}
+      }
+      bAdd.textContent=lbl;
+      localStorage.setItem('pubkey',chave);
+      alert(done+' arquivo(s) adicionado(s) à pasta "'+a.titulo+'"'+(fail?(' — '+fail+' falharam, tente de novo'):'')+'.');
+      loadAlbums();
+    };
+    inp.click();
+  });
   const bShare=btn('📲 Compartilhar',()=>{
     const url=location.origin+'/galeria?album='+encodeURIComponent(a.id);
     const msg='*'+a.titulo+'*\n\nVeja as fotos e vídeos na galeria da Escola Elenice & Marcelo:\n'+url;
@@ -330,7 +354,7 @@ function albumRow(a){
     const r=await fetch('/api/publicar?album='+encodeURIComponent(a.id)+'&chave='+encodeURIComponent(chave),{method:'DELETE'});
     if(r.ok)loadAlbums(); else alert('Erro ao excluir (senha correta?).');
   });bDel.className='del';
-  actions.append(bShare,bRen,bCat,bDel);
+  actions.append(bAdd,bShare,bRen,bCat,bDel);
   const grid=document.createElement('div');grid.className='alb-items';
   a.media.forEach(m=>{
     const it=document.createElement('div');it.className='alb-item'+(m.url===a.capa?' capa':'');
