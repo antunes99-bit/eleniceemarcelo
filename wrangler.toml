@@ -1,0 +1,15 @@
+# Configuração do projeto Cloudflare Pages (vínculos de recursos)
+# Este arquivo é a fonte da verdade dos bindings — as secrets (PUBLISH_KEY,
+# TURNSTILE_SECRET) continuam definidas no painel do Cloudflare.
+name = "eleniceemarcelo"
+pages_build_output_dir = "."
+compatibility_date = "2026-06-13"
+
+[[r2_buckets]]
+binding = "GALERIA"
+bucket_name = "eleniceemarcelo-galeria"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "eleniceemarcelo-alunos"
+database_id = "49bc2d22-4e6a-4639-ac05-c9cc6d9de150"
