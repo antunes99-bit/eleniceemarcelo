@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrícula — Elenice & Marcelo Dança de Salão</title>
+<meta name="description" content="Faça sua matrícula na escola de dança de salão Elenice & Marcelo, em Pelotas/RS.">
+<link id="favicon" rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+  :root{--wine:#6e1d2c;--wine-dark:#511320;--gold:#c79a4b;--gold-soft:#e3c98a;--cream:#faf5ee;--cream-2:#f3e9db;--ink:#2a1c1f;--muted:#7a6a63;--ok:#2e7d32;--err:#c62828;--radius:16px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;padding:20px 14px 60px;line-height:1.5}
+  .wrap{max-width:600px;margin:0 auto}
+  .logo{display:block;margin:0 auto;height:70px;width:70px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px var(--gold)}
+  h1{font-family:'Playfair Display',Georgia,serif;color:var(--wine);font-size:1.7rem;text-align:center;margin:14px 0 4px}
+  .sub{text-align:center;color:var(--muted);font-size:.93rem;margin-bottom:22px}
+  .card{background:#fff;border:1px solid var(--cream-2);border-radius:var(--radius);box-shadow:0 14px 40px -18px rgba(46,16,24,.35);padding:22px;margin-bottom:16px}
+  h2{font-family:'Playfair Display',Georgia,serif;color:var(--wine);font-size:1.12rem;margin-bottom:4px}
+  .h2sub{font-size:.8rem;color:var(--muted);margin-bottom:10px}
+  label{display:block;font-weight:700;font-size:.88rem;margin:13px 0 5px}
+  .opc{font-weight:500;color:var(--muted);font-size:.78rem}
+  input[type=text],input[type=tel],input[type=email],input[type=date],select,textarea{width:100%;padding:.72rem .9rem;border:1.5px solid var(--cream-2);border-radius:10px;font:inherit;font-size:1rem;background:var(--cream)}
+  textarea{min-height:70px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+  .check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:.85rem}
+  .check input{width:20px;height:20px;margin-top:2px;flex-shrink:0}
+  .btn{display:block;width:100%;margin-top:18px;padding:.98rem;border:0;border-radius:999px;background:var(--wine);color:#fff;font:inherit;font-size:1.08rem;font-weight:700;cursor:pointer;transition:.2s}
+  .btn:hover{background:var(--wine-dark)} .btn:disabled{opacity:.5;cursor:default}
+  .msg{margin-top:14px;text-align:center;font-weight:600;display:none;padding:.85rem;border-radius:10px}
+  .msg.ok{display:block;background:#e8f5e9;color:var(--ok)}
+  .msg.err{display:block;background:#ffebee;color:var(--err)}
+  .sucesso{display:none;text-align:center;padding:30px 20px}
+  .sucesso h2{font-size:1.5rem;margin-bottom:10px}
+  .sucesso .wa{display:inline-block;margin-top:16px;background:#25d366;color:#fff;font-weight:700;padding:.8rem 1.5rem;border-radius:999px;text-decoration:none}
+  .back{display:block;text-align:center;margin-top:20px;color:var(--wine);font-weight:600;text-decoration:none}
+  .hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="logo" id="logo" alt="" style="display:none">
+  <h1>Ficha de Matrícula</h1>
+  <p class="sub">Preencha seus dados e venha dançar com a gente! 💃🕺</p>
+
+  <form id="form">
+    <div class="card">
+      <h2>Dados do aluno</h2>
+      <label for="nome">Nome completo *</label>
+      <input type="text" id="nome" name="nome" required maxlength="120" autocomplete="name">
+      <label for="nascimento">Data de nascimento</label>
+      <input type="date" id="nascimento" name="nascimento">
+      <label for="whatsapp">WhatsApp (com DDD) *</label>
+      <input type="tel" id="whatsapp" name="whatsapp" required placeholder="(53) 9XXXX-XXXX" autocomplete="tel">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" maxlength="120" autocomplete="email">
+      <label for="endereco">Endereço <span class="opc">(rua, número, bairro, cidade)</span></label>
+      <input type="text" id="endereco" name="endereco" maxlength="200" autocomplete="street-address">
+    </div>
+
+    <div class="card">
+      <h2>Turma</h2>
+      <p class="h2sub">Escolha a turma que deseja participar.</p>
+      <select id="turma" name="turma" required>
+        <option value="">Carregando turmas…</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <h2>Responsável financeiro</h2>
+      <p class="h2sub">Quem vai receber o link de cobrança da mensalidade.</p>
+      <div class="check" style="margin-top:0"><input type="checkbox" id="souEu" checked><label for="souEu" style="margin:0;font-weight:600">Sou eu mesmo (o aluno)</label></div>
+      <div id="cobrancaBox" style="display:none">
+        <label for="cobranca_nome">Nome completo</label>
+        <input type="text" id="cobranca_nome" name="cobranca_nome" maxlength="120">
+        <label for="cobranca_email">E-mail</label>
+        <input type="email" id="cobranca_email" name="cobranca_email" maxlength="120">
+        <label for="cobranca_whatsapp">WhatsApp</label>
+        <input type="tel" id="cobranca_whatsapp" name="cobranca_whatsapp" placeholder="(53) 9XXXX-XXXX">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Emergência e saúde <span class="opc">(opcional)</span></h2>
+      <label for="emergencia_nome">Contato de emergência — nome</label>
+      <input type="text" id="emergencia_nome" name="emergencia_nome" maxlength="120">
+      <label for="emergencia_fone">Contato de emergência — telefone</label>
+      <input type="tel" id="emergencia_fone" name="emergencia_fone">
+      <label for="saude">Alguma restrição de saúde, lesão ou cuidado que os professores devam saber?</label>
+      <textarea id="saude" name="saude" maxlength="300"></textarea>
+    </div>
+
+    <div class="card">
+      <div class="hp"><label>Site<input type="text" name="site" tabindex="-1" autocomplete="off"></label></div>
+      <div class="check"><input type="checkbox" id="consent" required><label for="consent" style="margin:0;font-weight:500">Autorizo o uso dos meus dados para fins de matrícula e comunicação da Escola Elenice &amp; Marcelo. *</label></div>
+      <div style="margin-top:16px"><div class="cf-turnstile" data-sitekey="0x4AAAAAAD5--CIZW36VSosx" data-theme="light" data-language="pt-BR" data-callback="__tsCb" data-expired-callback="__tsExp"></div></div>
+      <button class="btn" id="send" type="submit">Enviar matrícula</button>
+      <div class="msg" id="msg"></div>
+    </div>
+  </form>
+
+  <div class="card sucesso" id="sucesso">
+    <h2>🎉 Matrícula enviada!</h2>
+    <p>Recebemos seus dados. Em breve entraremos em contato para confirmar sua turma e combinar os detalhes.</p>
+    <a class="wa" id="waEscola" href="#" target="_blank" rel="noopener">💬 Falar com a escola no WhatsApp</a>
+  </div>
+
+  <a class="back" href="/">← Voltar ao site</a>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+
+// logo + turmas a partir das informações do site
+fetch('/content/info.json').then(r=>r.json()).then(i=>{
+  if(i.logo){$('logo').src=i.logo;$('logo').style.display='block';$('favicon').href=i.logo;}
+  const wa='https://wa.me/'+(i.whatsapp||'')+'?text='+encodeURIComponent('Olá! Acabei de enviar minha ficha de matrícula pelo site. 😊');
+  $('waEscola').href=wa;
+  const sel=$('turma');sel.innerHTML='';
+  const add=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.appendChild(o);};
+  add('','Escolha a turma…');
+  (i.horarios||[]).forEach(t=>{
+    const rot=[t.dia,t.hora,t.nivel].filter(Boolean).join(' · ');
+    if(rot)add(rot,rot);
+  });
+  add('Ainda não sei / quero orientação','✨ Ainda não sei — quero orientação da escola');
+}).catch(()=>{
+  const sel=$('turma');sel.innerHTML='';
+  const o=document.createElement('option');o.value='Ainda não sei / quero orientação';o.textContent='Ainda não sei — quero orientação da escola';sel.appendChild(o);
+});
+
+// responsável financeiro: "sou eu mesmo"
+$('souEu').addEventListener('change',()=>{$('cobrancaBox').style.display=$('souEu').checked?'none':'block';});
+
+// Turnstile com token fresco (renova sozinho)
+window.__tsAt=0;
+window.__tsCb=()=>{window.__tsAt=Date.now();};
+window.__tsExp=()=>{window.__tsAt=0;try{turnstile.reset();}catch(e){}};
+async function freshTs(force){
+  if(!window.turnstile)return null;
+  let tk='';try{tk=turnstile.getResponse()||'';}catch(e){}
+  const idade=Date.now()-(window.__tsAt||0);
+  if(tk&&!force&&idade<230000)return tk;
+  try{turnstile.reset();}catch(e){}
+  for(let i=0;i<50;i++){
+    await new Promise(r=>setTimeout(r,300));
+    try{tk=turnstile.getResponse()||'';}catch(e){}
+    if(tk){window.__tsAt=Date.now();return tk;}
+  }
+  return null;
+}
+
+function showMsg(t,c){const m=$('msg');m.textContent=t;m.className='msg '+c;}
+
+$('form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!$('consent').checked){showMsg('Marque a autorização de uso dos dados.','err');return;}
+  $('send').disabled=true;showMsg('Enviando…','ok');
+  const montar=async(force)=>{
+    const fd=new FormData($('form'));
+    if($('souEu').checked){
+      fd.set('cobranca_nome',$('nome').value);
+      fd.set('cobranca_email',$('email').value);
+      fd.set('cobranca_whatsapp',$('whatsapp').value);
+    }
+    fd.set('consentimento','sim');
+    const tk=await freshTs(force);
+    if(tk)fd.set('ts',tk);
+    const r=await fetch('/api/matricula',{method:'POST',body:fd});
+    return {r,j:await r.json().catch(()=>({}))};
+  };
+  try{
+    let {r,j}=await montar(false);
+    if(r.status===403){showMsg('Renovando verificação de segurança…','ok');({r,j}=await montar(true));}
+    if(!r.ok){showMsg(j.error||'Não foi possível enviar. Tente de novo.','err');$('send').disabled=false;return;}
+    $('form').style.display='none';
+    $('sucesso').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(err){
+    showMsg('Erro de conexão. Verifique a internet e tente de novo.','err');
+    $('send').disabled=false;
+  }
+});
+</script>
+</body>
+</html>
