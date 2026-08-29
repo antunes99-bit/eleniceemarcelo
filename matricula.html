@@ -64,11 +64,9 @@
     </div>
 
     <div class="card">
-      <h2>Turma</h2>
-      <p class="h2sub">Escolha a turma que deseja participar.</p>
-      <select id="turma" name="turma" required>
-        <option value="">Carregando turmas…</option>
-      </select>
+      <h2>Turmas</h2>
+      <p class="h2sub">Marque uma ou mais turmas que deseja participar.</p>
+      <div id="turmasBox"><span style="color:var(--muted);font-size:.85rem">Carregando turmas…</span></div>
     </div>
 
     <div class="card">
@@ -121,17 +119,25 @@ fetch('/content/info.json').then(r=>r.json()).then(i=>{
   if(i.logo){$('logo').src=i.logo;$('logo').style.display='block';$('favicon').href=i.logo;}
   const wa='https://wa.me/'+(i.whatsapp||'')+'?text='+encodeURIComponent('Olá! Acabei de enviar minha ficha de matrícula pelo site. 😊');
   $('waEscola').href=wa;
-  const sel=$('turma');sel.innerHTML='';
-  const add=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.appendChild(o);};
-  add('','Escolha a turma…');
+  const box=$('turmasBox');box.innerHTML='';
+  const addT=(v,rotulo)=>{
+    const l=document.createElement('label');l.className='check';l.style.marginTop='10px';
+    const inp=document.createElement('input');inp.type='checkbox';inp.className='turmaOpt';inp.value=v;
+    const sp=document.createElement('span');sp.style.fontWeight='600';sp.textContent=rotulo||v;
+    l.append(inp,sp);box.appendChild(l);
+  };
   (i.horarios||[]).forEach(t=>{
     const rot=[t.dia,t.hora,t.nivel].filter(Boolean).join(' · ');
-    if(rot)add(rot,rot);
+    const txt=(rot+' '+(t.descricao||'')).toLowerCase();
+    if(rot&&!txt.includes('particular'))addT(rot); // só turmas regulares
   });
-  add('Ainda não sei / quero orientação','✨ Ainda não sei — quero orientação da escola');
+  addT('Aluno de aula particular','🎩 Aluno de aula particular');
+  addT('Ainda não sei / quero orientação','✨ Ainda não sei — quero orientação da escola');
 }).catch(()=>{
-  const sel=$('turma');sel.innerHTML='';
-  const o=document.createElement('option');o.value='Ainda não sei / quero orientação';o.textContent='Ainda não sei — quero orientação da escola';sel.appendChild(o);
+  const box=$('turmasBox');box.innerHTML='';
+  const l=document.createElement('label');l.className='check';
+  l.innerHTML='<input type="checkbox" class="turmaOpt" value="Ainda não sei / quero orientação"><span style="font-weight:600">Ainda não sei — quero orientação da escola</span>';
+  box.appendChild(l);
 });
 
 // responsável financeiro: "sou eu mesmo"
@@ -168,10 +174,13 @@ $('cpf').addEventListener('input',()=>{
 $('form').addEventListener('submit',async e=>{
   e.preventDefault();
   if($('cpf').value.replace(/\D/g,'').length!==11){showMsg('Informe um CPF válido (11 números).','err');return;}
+  const marcadas=[...document.querySelectorAll('.turmaOpt:checked')].map(c=>c.value);
+  if(!marcadas.length){showMsg('Marque ao menos uma turma.','err');return;}
   if(!$('consent').checked){showMsg('Marque a autorização de uso dos dados.','err');return;}
   $('send').disabled=true;showMsg('Enviando…','ok');
   const montar=async(force)=>{
     const fd=new FormData($('form'));
+    fd.set('turma',marcadas.join(' | '));
     if($('souEu').checked){
       fd.set('cobranca_nome',$('nome').value);
       fd.set('cobranca_email',$('email').value);
