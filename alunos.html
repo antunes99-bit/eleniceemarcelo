@@ -106,7 +106,7 @@ $('atualizar').onclick=carregar;
 if($('chave').value)carregar();
 
 function montaFiltros(){
-  const turmas=[...new Set(ALUNOS.map(a=>a.turma).filter(Boolean))].sort();
+  const turmas=[...new Set(ALUNOS.flatMap(a=>String(a.turma||'').split(' | ')).filter(Boolean))].sort();
   const sel=$('fTurma');const atual=sel.value;
   sel.innerHTML='<option value="">Todas as turmas</option>'+turmas.map(t=>'<option>'+esc(t)+'</option>').join('');
   sel.value=atual||'';
@@ -116,7 +116,7 @@ $('fBusca').oninput=render;
 
 function filtrados(){
   const t=$('fTurma').value,b=$('fBusca').value.trim().toLowerCase();
-  return ALUNOS.filter(a=>(!t||a.turma===t)&&(!b||(a.nome||'').toLowerCase().includes(b)));
+  return ALUNOS.filter(a=>(!t||String(a.turma||'').split(' | ').includes(t))&&(!b||(a.nome||'').toLowerCase().includes(b)));
 }
 const esc=s=>('' + (s??'')).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
