@@ -126,10 +126,12 @@ fetch('/content/info.json').then(r=>r.json()).then(i=>{
     const sp=document.createElement('span');sp.style.fontWeight='600';sp.textContent=rotulo||v;
     l.append(inp,sp);box.appendChild(l);
   };
+  const vistos=new Set();
   (i.horarios||[]).forEach(t=>{
-    const rot=[t.dia,t.hora,t.nivel].filter(Boolean).join(' · ');
-    const txt=(rot+' '+(t.descricao||'')).toLowerCase();
-    if(rot&&!txt.includes('particular'))addT(rot); // só turmas regulares
+    const inicio=String(t.hora||'').split(/\s+(?:às|as|até|a)\s+|\s*[–—-]\s*/i)[0].trim();
+    const rot=[t.dia,inicio].filter(Boolean).join(' · '); // só dia + hora de início
+    const txt=(rot+' '+(t.nivel||'')+' '+(t.descricao||'')).toLowerCase();
+    if(rot&&!txt.includes('particular')&&!vistos.has(rot)){vistos.add(rot);addT(rot);}
   });
   addT('Aluno de aula particular','🎩 Aluno de aula particular');
   addT('Ainda não sei / quero orientação','✨ Ainda não sei — quero orientação da escola');
